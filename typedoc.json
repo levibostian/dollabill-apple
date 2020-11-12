@@ -1,0 +1,8 @@
+{
+  "mode": "modules",
+  "out": "docs/api/",
+  "exclude": "**/*.test.ts",
+  "excludePrivate": true,
+  "excludeNotExported": true,
+  "excludeProtected": true
+}

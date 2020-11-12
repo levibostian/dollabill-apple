@@ -1,0 +1,38 @@
+name: Test
+# only run on PRs and when push a commit on a branch that we don't deploy on. 
+on: 
+  push:
+    # branches-ignore: # we deploy on these branches. No need to test on them. 
+    # NOTE: We are enabling testing on these branches because we want codecov to generate a report on that branch so we have something to compare to. 
+      # - 'master'
+      # - 'beta'
+    tags-ignore: # Don't run tests on tags as tags are made off of master branch. 
+      - '*'
+  pull_request: # Run on all PRs. 
+    branches:
+      - '*'
+
+env:
+  CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+jobs:
+  test:
+    name: Test 
+    runs-on: ubuntu-latest
+    # skip if '[skip ci]' exists in commit message 
+    if: ${{ !contains(format('{0} {1}', github.event.head_commit.message, github.event.pull_request.title), '[skip ci]') }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Read .nvmrc
+        run: echo ::set-output name=NODE_VERSION::$(cat .nvmrc)
+        id: nvm
+      - name: Setup node
+        uses: actions/setup-node@v2-beta
+        with:
+          node-version: '${{ steps.nvm.outputs.NODE_VERSION }}'
+      - name: Install dependencies
+        run: npm ci 
+      - name: Show what will be deployed
+        run: npm run build && npm publish dist --dry-run
+      - name: Run tests 
+        run:  npm run test && npx codecov

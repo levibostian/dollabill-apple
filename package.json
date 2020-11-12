@@ -1,0 +1,69 @@
+{
+  "name": "dollabill-apple",
+  "version": "0.1.0",
+  "description": "Easily work with Apple in-app purchases. So you can more easily collect your \"Dolla dolla bills, ya'll\"",
+  "scripts": {
+    "test": "npx jest",
+    "format": "npx prettier --write \"{app,tests}/**/*.ts\"",
+    "build": "rm -rf dist && npx tsc && find dist -type f -name '*.test.js*' -delete && cp package*.json dist/ && cp LICENSE dist/ && cp README.md dist/",
+    "docs": "npx typedoc app",
+    "lint": "npx eslint --fix --ext ts,js . && npx tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/levibostian/dollabill-apple.git"
+  },
+  "keywords": [
+    "Apple",
+    "iOS",
+    "Purchase",
+    "Subscription",
+    "App",
+    "in-app-purchase",
+    "in-app-billing",
+    "Validation",
+    "dolla",
+    "IAP"
+  ],
+  "author": "Levi Bostian <levi.bostian@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/levibostian/dollabill-apple/issues"
+  },
+  "homepage": "https://github.com/levibostian/dollabill-apple#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,js,json,css,md}": [
+      "npm run format"
+    ]
+  },
+  "devDependencies": {
+    "@levibostian/eslint-config-node": "^1.0.2",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/exec": "^5.0.0",
+    "@semantic-release/git": "^9.0.0",
+    "@semantic-release/github": "^7.1.1",
+    "@semantic-release/npm": "^7.0.6",
+    "@tsconfig/node12": "^1.0.7",
+    "@types/jest": "^26.0.15",
+    "@types/node": "^14.14.7",
+    "@typescript-eslint/eslint-plugin": "^4.7.0",
+    "@typescript-eslint/parser": "^4.7.0",
+    "codecov": "^3.8.1",
+    "eslint": "^7.13.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "husky": "^4.3.0",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.0.0",
+    "lint-staged": "^10.5.1",
+    "prettier": "^2.1.2",
+    "semantic-release": "^17.0.4",
+    "ts-jest": "^26.4.4",
+    "typedoc": "^0.19.2",
+    "typescript": "^4.0.5"
+  }
+}
