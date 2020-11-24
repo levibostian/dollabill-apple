@@ -1,0 +1,24 @@
+{
+	"environment": "Sandbox",
+	"receipt": {
+		"receipt_type": "ProductionSandbox",
+		"adam_id": 0,
+		"app_item_id": 0,
+		"bundle_id": "com.foo.foo",
+		"application_version": "1",
+		"download_id": 0,
+		"version_external_identifier": 0,
+		"receipt_creation_date": "2020-11-13 01:46:37 Etc/GMT",
+		"receipt_creation_date_ms": "1605231997000",
+		"receipt_creation_date_pst": "2020-11-12 17:46:37 America/Los_Angeles",
+		"request_date": "2020-11-13 01:47:08 Etc/GMT",
+		"request_date_ms": "1605232028848",
+		"request_date_pst": "2020-11-12 17:47:08 America/Los_Angeles",
+		"original_purchase_date": "2013-08-01 07:00:00 Etc/GMT",
+		"original_purchase_date_ms": "1375340400000",
+		"original_purchase_date_pst": "2013-08-01 00:00:00 America/Los_Angeles",
+		"original_application_version": "1.0"
+	},
+	"latest_receipt": "XXXXXX",
+	"status": 2
+}

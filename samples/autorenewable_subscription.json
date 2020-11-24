@@ -1,0 +1,18 @@
+{
+    "quantity": "1",
+    "product_id": "test_subscription",
+    "transaction_id": "1000000741421650",
+    "original_transaction_id": "1000000741421650",
+    "purchase_date": "2020-11-13 01:09:23 Etc/GMT",
+    "purchase_date_ms": "1605229763000",
+    "purchase_date_pst": "2020-11-12 17:09:23 America/Los_Angeles",
+    "original_purchase_date": "2020-11-13 01:09:24 Etc/GMT",
+    "original_purchase_date_ms": "1605229764000",
+    "original_purchase_date_pst": "2020-11-12 17:09:24 America/Los_Angeles",
+    "expires_date": "2020-11-13 01:12:23 Etc/GMT",
+    "expires_date_ms": "1605229943000",
+    "expires_date_pst": "2020-11-12 17:12:23 America/Los_Angeles",
+    "web_order_line_item_id": "1000000057349989",
+    "is_trial_period": "true",
+    "is_in_intro_offer_period": "false"
+}

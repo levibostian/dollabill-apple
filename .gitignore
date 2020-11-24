@@ -1,5 +1,7 @@
 coverage/
 dist/
+secrets.json
+junit.xml
 
 # Logs
 logs
