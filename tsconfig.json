@@ -6,6 +6,8 @@
       "baseUrl": ".",
       "sourceMap": true,
       "outDir": "dist",
+      "declaration": true,
+      "declarationMap": true,
       "strict": true,
       "noFallthroughCasesInSwitch": true,
       "paths": {

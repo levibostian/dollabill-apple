@@ -7,7 +7,8 @@
     "format": "npx prettier --write \"{app,tests}/**/*.ts\"",
     "build": "rm -rf dist && npx tsc && find dist -type f -name '*.test.js*' -delete && cp package*.json dist/ && cp LICENSE dist/ && cp README.md dist/",
     "docs": "npx typedoc app",
-    "lint": "npx eslint --fix --ext ts,js . && npx tsc --noEmit"
+    "lint": "npx eslint --fix --ext ts,js . ; npx tsc --noEmit",
+    "watch": "npx tsc --watch"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "in-app-billing",
     "Validation",
     "dolla",
+    "dollabill",
     "IAP"
   ],
   "author": "Levi Bostian <levi.bostian@gmail.com>",
@@ -65,5 +67,8 @@
     "ts-jest": "^26.4.4",
     "typedoc": "^0.19.2",
     "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "tiny-json-http": "^7.3.0"
   }
 }

@@ -1,0 +1,13 @@
+{
+    "quantity": "1",
+	"product_id": "test_consumable2",
+	"transaction_id": "1000000741428860",
+    "original_transaction_id": "1000000741428860",
+    "purchase_date": "2020-11-13 01:21:23 Etc/GMT",
+	"purchase_date_ms": "1605230483000",
+	"purchase_date_pst": "2020-11-12 17:21:23 America/Los_Angeles",	
+    "original_purchase_date": "2020-11-13 01:46:07 Etc/GMT",
+	"original_purchase_date_ms": "1605231967000",
+	"original_purchase_date_pst": "2020-11-12 17:46:07 America/Los_Angeles",
+	"is_trial_period": "false"
+}

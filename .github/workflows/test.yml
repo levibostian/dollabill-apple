@@ -36,3 +36,5 @@ jobs:
         run: npm run build && npm publish dist --dry-run
       - name: Run tests 
         run:  npm run test && npx codecov
+      - name: Compile example project
+        run: cd example; npm run build; cd .. 
