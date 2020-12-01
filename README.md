@@ -12,6 +12,8 @@ dolla bill makes it *very* easy to...
 
 > Note: If you have already written the code to verify receipts from Apple, you may be interested in [Typescript type definitions for Apple's responses](https://github.com/levibostian/types-apple-iap/). 
 
+![logo image. Sloth meme.](misc/header.jpg)
+
 # What is dolla bill?
 
 When implementing Apple in-app purchase receipt validation, it takes quite a bit of work (especially auto-renewable subscriptions!). There are many steps:
