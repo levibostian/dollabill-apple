@@ -1,14 +1,16 @@
 import { AppleInAppPurchaseTransaction } from "types-apple-iap"
 import { ParsedPurchases } from "./transaction"
 
-let parsedPurchases: ParsedPurchases
-let givenPurchase: AppleInAppPurchaseTransaction
-let givenPurchase2: AppleInAppPurchaseTransaction
+/* eslint-disable no-var */
+var parsedPurchases: ParsedPurchases
+var givenPurchase: AppleInAppPurchaseTransaction
+var givenPurchase2: AppleInAppPurchaseTransaction
+/* eslint-enable no-var */
 
 beforeEach(() => {
   parsedPurchases = new ParsedPurchases()
-  givenPurchase = require("../../../../samples/consumable.json")
-  givenPurchase2 = require("../../../../samples/consumable2.json")
+  givenPurchase = Object.assign({}, require("../../../../samples/consumable.json"))
+  givenPurchase2 = Object.assign({}, require("../../../../samples/consumable2.json"))
 })
 
 describe("ParsedPurchases", () => {
@@ -50,10 +52,20 @@ describe("ParsedPurchases", () => {
     })
     it(`given add multiple transactions for same subscription, expect add transactions`, async () => {
       parsedPurchases.addTransaction(givenPurchase)
+      givenPurchase.transaction_id = "unique_id"
       parsedPurchases.addTransaction(givenPurchase)
 
       expect(Array.from(parsedPurchases.transactions.keys())).toHaveLength(1)
       expect(parsedPurchases.transactions.get(givenPurchase.product_id)).toHaveLength(2)
+    })
+    it(`given duplicate transactions, expect do not  add  duplicate`, async () => {
+      givenPurchase.transaction_id = "not_unique_id"
+      parsedPurchases.addTransaction(givenPurchase)
+      givenPurchase.transaction_id = "not_unique_id"
+      parsedPurchases.addTransaction(givenPurchase)
+
+      expect(Array.from(parsedPurchases.transactions.keys())).toHaveLength(1)
+      expect(parsedPurchases.transactions.get(givenPurchase.product_id)).toHaveLength(1)
     })
     it(`given purchase, expect parsed transaction`, async () => {
       parsedPurchases.addTransaction(givenPurchase)

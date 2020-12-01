@@ -9,9 +9,9 @@ import { isFailure } from "."
 
 describe("runVerifyReceipt", () => {
   it(`given apple responds saying to use testing environment, expect to use testing environment in 2nd attempt`, async () => {
-    const postMock = jest.fn().mockResolvedValueOnce({
+    const postMock = jest.fn().mockResolvedValueOnce({body: {
       status: AppleVerifyReceiptErrorCode.USE_TEST_ENVIRONMENT
-    }).mockResolvedValueOnce(require('../samples/simple'))
+    }}).mockResolvedValueOnce({body: require('../samples/simple')})
     http.post = postMock
 
     await runVerifyReceipt({
@@ -37,9 +37,9 @@ describe("runVerifyReceipt", () => {
     expect(postMock.mock.calls).toHaveLength(1)    
   })
   it(`given an apple error response, expect receipt the error result`, async () => {
-    const postMock = jest.fn().mockResolvedValueOnce({
+    const postMock = jest.fn().mockResolvedValueOnce({body: {
       status: AppleVerifyReceiptErrorCode.WRONG_SHARED_SECRET
-    })
+    }})
     http.post = postMock
 
     const actual = await runVerifyReceipt({
@@ -52,9 +52,9 @@ describe("runVerifyReceipt", () => {
     expect((actual as AppleError).appleErrorCode).toEqual(AppleVerifyReceiptErrorCode.WRONG_SHARED_SECRET)
   })
   it(`given apple returns unknown error code, expect get an error result`, async () => {
-    const postMock = jest.fn().mockResolvedValueOnce({
+    const postMock = jest.fn().mockResolvedValueOnce({body: {
       status: 21199
-    })
+    }})
     http.post = postMock
 
     const actual = await runVerifyReceipt({
@@ -67,7 +67,7 @@ describe("runVerifyReceipt", () => {
     expect((actual as AppleError).appleErrorCode).toEqual(21199)
   })
   it(`given successful request, expect to get parsed successful result`, async () => {
-    const postMock = jest.fn().mockResolvedValueOnce(require("../samples/simple.json"))
+    const postMock = jest.fn().mockResolvedValueOnce({body: require("../samples/simple.json")})
     http.post = postMock
 
     const actual = await runVerifyReceipt({

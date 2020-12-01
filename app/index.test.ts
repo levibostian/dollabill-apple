@@ -58,7 +58,7 @@ describe("isFailure", () => {
 
 describe("verifyReceipt", () => {
   it(`expect use production environment by default`, async () => {
-    const postMock = jest.fn().mockResolvedValueOnce(require('../samples/simple'))
+    const postMock = jest.fn().mockResolvedValueOnce({body: require('../samples/simple')})
     http.post = postMock
 
     await verifyReceipt({

@@ -3,15 +3,14 @@ import {
 } from "../../../result/auto_renewable_subscription"
 import { ParsedTransactions } from "./transactions"
 import { ParsedSubscription } from "./subscription"
-import { AppleInAppPurchaseTransaction, AppleLatestReceiptInfo, ApplePendingRenewalInfo } from "types-apple-iap"
+import { AppleLatestReceiptInfo, ApplePendingRenewalInfo } from "types-apple-iap"
 
 /**
  * @internal
  */
 export const parseSubscriptions = (
   latestReceiptInfo?: AppleLatestReceiptInfo[],
-  pendingRenewalInfo?: ApplePendingRenewalInfo[],
-  inAppTransactions?: AppleInAppPurchaseTransaction[]  
+  pendingRenewalInfo?: ApplePendingRenewalInfo[]
 ): AutoRenewableSubscription[] => {
   if (!latestReceiptInfo) return []
 

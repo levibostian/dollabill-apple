@@ -11,6 +11,9 @@ import { AppleInAppPurchaseTransaction } from "types-apple-iap"
 export class ParsedPurchases {
   public transactions: Map<string, ProductPurchaseTransaction[]> = new Map()
 
+  /**
+   * Must be able to take in unlimited transactions but only add unique ones. 
+   */
   addTransaction(purchase: AppleInAppPurchaseTransaction): void {
     if (!ParsedPurchases.isPurchaseTransaction(purchase))
       throw new InternalError(
@@ -19,8 +22,11 @@ export class ParsedPurchases {
       )
 
     const existingTransactions = this.transactions.get(purchase.product_id) || []
+    const parsedTransaction = this.parseTransaction(purchase)
 
-    existingTransactions.push(this.parseTransaction(purchase))
+    if (_.array.contains(existingTransactions, item => item.transactionId === parsedTransaction.transactionId)) return 
+
+    existingTransactions.push(parsedTransaction)
 
     this.transactions.set(purchase.product_id, existingTransactions)
   }

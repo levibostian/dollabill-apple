@@ -7,7 +7,7 @@ import { parsePurchases } from "../common/purchase"
  * @internal 
  */
 export const parseSuccess = (response: AppleVerifyReceiptResponseBodySuccess): ParsedResult => {
-  const subscriptions = parseSubscriptions(response.latest_receipt_info, response.pending_renewal_info, response.receipt.in_app)
+  const subscriptions = parseSubscriptions(response.latest_receipt_info, response.pending_renewal_info)
   const purchases = parsePurchases(response.latest_receipt_info, response.receipt.in_app)
 
   return {
