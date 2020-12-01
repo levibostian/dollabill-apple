@@ -39,4 +39,4 @@ jobs:
       - name: Run tests 
         run:  npm run test && npx codecov
       - name: Compile example project
-        run: cd example; npm run build; cd .. 
+        run: npm run qa:setup && cd example && npm run build && cd ..

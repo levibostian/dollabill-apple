@@ -9,7 +9,7 @@
     "docs": "npx typedoc app",
     "lint": "npx eslint --fix --ext ts,js . ; npx tsc --noEmit",
     "watch": "npx tsc --watch",
-    "qa:setup": "npm run build && cd example && npm run i && npm run link && cd .. && echo \"Success! You are setup for QA testing.\"",
+    "qa:setup": "npm run build && cd example && npm i && npm run link && cd .. && echo \"Success! You are setup for QA testing.\"",
     "qa": "npm run build && cd example && npm run run || true && cd .."
   },
   "repository": {
