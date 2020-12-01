@@ -17,10 +17,35 @@ describe("ParsedSubscription", () => {
         `"BUG! Please, file a bug report: https://github.com/levibostian/dollabill-apple/issues/new?template=BUG_REPORT.md. (It's assumed that a subscription is not created if there are no transactions recorded for it.)"`
       )
     })
-    it(`given transactions, expect sort`, async () => {
-      const actual = new ParsedSubscription("1", false, [parsedTransaction2, parsedTransaction])
+    it(`given downgrade transactions, expect sort`, async () => {
+      const parsedTransactionCopy = Object.assign({}, parsedTransaction)      
+      const parsedTransaction2Copy = Object.assign({}, parsedTransaction2)
 
-      expect(actual.allTransactions).toEqual([parsedTransaction, parsedTransaction2])
+      parsedTransactionCopy.purchaseDate = new Date("2000-01-01T00:00:00.000Z")
+      parsedTransactionCopy.expiresDate = new Date("2000-06-01T00:00:00.000Z") // 6 month subscription period
+
+      // downgrade. Downgrades do not go into place until the current period is done. 
+      parsedTransaction2Copy.purchaseDate = new Date("2000-06-01T00:00:00.000Z")
+      parsedTransaction2Copy.expiresDate = new Date("2000-07-01T00:00:00.000Z") // 1 month subscription period
+
+      const actual = new ParsedSubscription("1", false, [parsedTransaction2Copy, parsedTransactionCopy])
+
+      expect(actual.allTransactions).toEqual([parsedTransaction2Copy, parsedTransactionCopy])
+    })
+    it(`given upgrade transactions, expect sort`, async () => {
+      const parsedTransactionCopy = Object.assign({}, parsedTransaction)      
+      const parsedTransaction2Copy = Object.assign({}, parsedTransaction2)
+
+      parsedTransactionCopy.purchaseDate = new Date("2000-01-01T00:00:00.000Z")
+      parsedTransactionCopy.expiresDate = new Date("2000-02-01T00:00:00.000Z") // 1 month subscription period
+
+      // Upgrade performed right away into the current subscription. 
+      parsedTransaction2Copy.purchaseDate = new Date("2000-01-02T00:00:00.000Z") // 1 day after purchased subscription
+      parsedTransaction2Copy.expiresDate = new Date("2000-02-20T00:00:00.000Z") // 6 week subscription period
+
+      const actual = new ParsedSubscription("1", false, [parsedTransaction2Copy, parsedTransactionCopy])
+
+      expect(actual.allTransactions).toEqual([parsedTransaction2Copy, parsedTransactionCopy])
     })
     it(`given transactions, expect populate properties`, async () => {
       const actual = new ParsedSubscription(

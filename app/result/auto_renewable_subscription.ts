@@ -74,23 +74,23 @@ export type AutoRenewableSubscriptionStatus = "active" | "billing_retry_period" 
  * 
  * When the first purchase is made along with all future renewals (including when the customer restores a subscription after a billing issue) all of these transactions, free trials, discounts, all come together as subscription periods into a subscription. 
  * 
- * Subscriptions are identified with the {@link originalTransactionId}. 
+ * Subscriptions are identified by the list of transactions with the same {@link originalTransactionId}. 
  * 
- * > Note: This is auto-renewable *only*. Non aut-renewable subscriptions are up to you to handle how long they last and prompting your customers to purchase again.
+ * > Note: This is auto-renewable *only*. Non auto-renewable subscriptions are up to you to handle how long they last and prompting your customers to purchase again.
  */
 export interface AutoRenewableSubscription {  
   /**
-   * The `product_id` of the subscription the customer is currently paying for or did pay for. If the user upgrades or downgrades their subscription in a subscription group, this value will change to the always be the most recent `product_id` that they chose.
+   * The `product_id` of the subscription the customer is currently paying for or did pay for. This value may change if the customer changes to a different product.
    */
   currentProductId: string
   /**
    * Used to identify a subscription. 
    * 
-   * When a customer upgrades/downgrades/downgrades, gets a refund then this subscription will be cancelled and a new subscription will be created. This identifier will be used through all renews and restores of the subscription. Do not rely on the {@link currentProductId} or {@link subscriptionGroup} to identify a subscription as there could be multiple subscriptions with the same product id or subscription group id (Example: one subscription is active while another was cancelled). 
+   * When a customer upgrades/downgrades/crossgrades, gets a refund then this subscription will be cancelled and a new subscription will be created. This identifier will be used through all renews and restores of the subscription. Do not rely on the {@link currentProductId} or {@link subscriptionGroup} to identify a subscription as there could be multiple subscriptions with the same product id or subscription group id (Example: one subscription is active while another was cancelled). 
    */
   originalTransactionId: string
   /**
-   * The subscription group of the subscription.
+   * The subscription group the subscription's product_id belongs to.
    */
   subscriptionGroup: string
   /**
@@ -98,7 +98,7 @@ export interface AutoRenewableSubscription {
    */
   isInFreeTrialPeriod: boolean
   /**
-   * Determine if the customer is eligible for an introductory offer. New customers are always eligible but existing customers who have not yet redeemed an offer are also eligible. This field determines if the customer has ever redeemed an offer.
+   * Determine if the customer is eligible for an introductory offer. New customers are always eligible but existing customers who have not yet redeemed an offer are also eligible. This field determines if the customer has ever redeemed an offer for the subscription group this subscription belongs to.
    *
    * [Learn more about how to implement intro offers in your app](https://developer.apple.com/documentation/storekit/in-app_purchase/subscriptions_and_offers/implementing_introductory_offers_in_your_app)
    */
@@ -115,22 +115,26 @@ export interface AutoRenewableSubscription {
    * Status of the subscription. 
    *
    * > Note: This value does *not* determine if the customer will renew or not. It is more designed to determine their paid status *at this moment*. See {@link actionableStatuses} to get info about the future of the subscription.
-   *
-   * See {@link giveAccessToContent} for a simple true/false if you should give the customer access to the paid content or not.
    */
   status: AutoRenewableSubscriptionStatus
   /**
    * If the customer has redeemed an offer code, this field will be populated with the reference name that you set for the offer.
    *
    * You determine in App Store Connect is an offer code is available for new, active, or expired users.
+   * 
+   * > Note: This is a unique list based off the reference name. If the same offer is used multiple times, it's only listed here once. 
    */
   usedOfferCodes: string[]
   /**
-   *
+   * If the customer has used any promotional offers for this subscription, all of them are listed here. 
+   * 
+   * > Note: This is a unique list based off the reference name. If the same offer is used multiple times, it's only listed here once. 
    */
   usedPromotionalOffers: string[]
   /**
    * All transactions for this subscription. Ordered by *the expiration date* of the transaction with the latest expire date first in the list. This sort order is recommended by Apple as it's the method to use to determine the subscription periods of this subscription. 
+   * 
+   * > Note: I know when I was first learning about auto-renewable subscriptions, I was wondering why Apple recommends you sort by expiration date when a customer could sign up for a 6 month subscription today but downgrade to a 1 month tomorrow. Wouldn't the sort order put the 6 month subscription before the 1 month subscription and give my customer 5 months, free? That should not happen because upgrades (go from 1 month to 6 month) are put into place immediately while downgrades (go from 6 month to 1 month) do not happen until the current subscription period ends. That means that if you downgrade tomorrow to 1 month, that 1 month subscription will not go into effect until 6 months from now. If you were to get a refund today for the 6 month subscription and then buy a 1 month subscription in the app, the refunded subscription would be cancelled and a new subscription would be purchased so that's handled, too. 
    *
    * See {@link latestExpireDateTransaction}
    */
@@ -142,7 +146,9 @@ export interface AutoRenewableSubscription {
    */
   latestExpireDateTransaction: AutoRenewableSubscriptionTransaction
   /**
-   * If the customer is currently planning on automatically renewing their subscription. A customer at anytime may decide to go into their Apple account and setup their subscription to cancel after their current subscription period expires.
+   * If the customer is currently planning on automatically renewing their subscription. 
+   * 
+   * A customer at anytime may decide to go into their Apple account and setup their subscription to cancel after their current subscription period expires.
    * 
    * > Note: This value is also true if the customer is going to downgrade to another product at the end of the subscription period. Just because they will auto renew does not mean they will auto renew the current product. See {@link willDowngradeToProductId}. 
    */
@@ -152,19 +158,19 @@ export interface AutoRenewableSubscription {
    */
   willDowngradeToProductId?: string
   /**
-   * Strings version of {@link actionableStatuses}.
+   * Strings version of {@link actionableStatuses}. This strings version is convenient for storing in a database or sending to a client application for easy parsing. That way you can handle issues in the UI of your client apps and get the issues resolved. 
    */
   issuesStrings: AutoRenewableSubscriptionIssueString[]
   /**
    * Various statuses about this subscription beyond if the customer should be given access to the paid content or not (see {@link subscriptionPaidStatus}). These values are meant to be helpful in notifying your customer, if you choose to do so, to reduce losing customers. Maybe the customer is having a billing issue and they need to update their credit card, maybe you have introduced a pricing increase and the customer has not yet accepted it yet. There are many scenarios and it's up to you to decide what to act upon.
    *
-   * See {@link actionableStatusesStrings} for a string version of this that can be stored in a database.
+   * See {@link actionableStatusesStrings} for a string version. 
    */
   issues: AutoRenewableSubscriptionIssues
   /**
-   * If the customer has accepted the price increase yet.
+   * If the customer has been notified and then accepted a price increase.
    *
-   * This value is populated if the customer has been notified of the increase. If it's undefined, the customer has not yet been notified.
+   * This value is populated only if the customer has been notified of the increase. If it's undefined, the customer has not yet been notified or there is not a price increase happening.
    */
   priceIncreaseAccepted?: boolean
   /**
