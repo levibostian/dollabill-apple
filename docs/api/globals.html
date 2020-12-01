@@ -149,25 +149,36 @@
 <div class="container container-main">
 	<div class="content-wrap">
 		<div class="tsd-panel tsd-typography">
+			<p><img src="https://img.shields.io/npm/v/dollabill-apple/beta" alt="npm (tag)">
+				<img src="https://img.shields.io/github/workflow/status/levibostian/dollabill-apple/Test/beta" alt="GitHub Workflow Status (branch)">
+			<a href="https://codecov.io/gh/levibostian/dollabill-apple"><img src="https://codecov.io/gh/levibostian/dollabill-apple/branch/beta/graph/badge.svg?token=aVY76EstWN" alt="codecov"></a></p>
 			<a href="#dolla-bill" id="dolla-bill" style="color: inherit; text-decoration: none;">
 				<h1>dolla bill</h1>
 			</a>
 			<p>Easily work with Apple in-app purchases. So you can more easily collect your &quot;Dolla dolla bills, ya&#39;ll&quot;.</p>
+			<p>dolla bill makes it <em>very</em> easy to...</p>
+			<ul>
+				<li>Verify receipts from StoreKit </li>
+				<li>Process server-to-server notifications </li>
+			</ul>
+			<blockquote>
+				<p>Note: If you have already written the code to verify receipts from Apple, you may be interested in <a href="https://github.com/levibostian/types-apple-iap/">Typescript type definitions for Apple&#39;s responses</a>. </p>
+			</blockquote>
 			<a href="#what-is-dolla-bill" id="what-is-dolla-bill" style="color: inherit; text-decoration: none;">
 				<h1>What is dolla bill?</h1>
 			</a>
 			<p>When implementing Apple in-app purchase receipt validation, it takes quite a bit of work (especially auto-renewable subscriptions!). There are many steps:</p>
 			<ol>
 				<li>Implementing StoreKit in your app to allow your customers to make purchases. </li>
-				<li>Implement server validation to validate the transactions are not fake and unlock access to paid content to your customers. </li>
+				<li>Implement <em>server side validation</em> of Receipts to validate the transactions are not fake and unlock access to paid content to your customers. </li>
 				<li>If offering auto-renewable subscriptions, you need to continuously keep track of the status of your customers and give them or restrict access to paid content as time goes on. This requires you have your own database of customers on your backend server. </li>
 			</ol>
 			<p>dolla bill takes care of step #2 above. From my experience, step #2 is the most work and biggest pain! </p>
 			<p>Dolla bill helps you to:</p>
 			<ul>
 				<li>Perform the HTTP request to Apple&#39;s servers. </li>
-				<li>Process errors and returns back a helpful error message to you, the developer, to help you fix the problem. </li>
-				<li>Process successful responses into a very convenient set of Objects that make working with in-app purchases <em>finally easy</em>. We do all of the processing for you. </li>
+				<li>If an error happens, dolla bill processes errors and returns back a helpful error message to you, the developer, to help you fix the problem for easily.  </li>
+				<li>Parse successful responses from Apple into a <em>very handy</em> API for you to use. </li>
 			</ul>
 			<p>Example: Let&#39;s say that you need to determine if a customer is eligible to receive a discount on a new subscription.</p>
 			<p>Before dolla bill...</p>
@@ -178,6 +189,7 @@
 			<p><em>Note: The code above is pseudocode. The real code is at least double the amount of work</em></p>
 			<p>After dolla bill...</p>
 			<pre><code class="language-ts">dollaBillResponse.autoRenewableSubscriptions[<span class="hljs-number">0</span>].isEligibleIntroductoryOffer</code></pre>
+			<p>dolla bill parsed the results back from Apple and just hands to you  the info that you actually care about. </p>
 			<p>That&#39;s just 1 example. You also need to write code to determine...</p>
 			<ul>
 				<li>Is my customer in a grace period? If so, how long?</li>
@@ -185,14 +197,13 @@
 				<li>Will my customer auto-renew their subscription? </li>
 				<li>... and many more</li>
 			</ul>
-			<p>Not only that, but dolla bill has some great test coverage 😄: <a href="https://codecov.io/gh/levibostian/dollabill-apple"><img src="https://codecov.io/gh/levibostian/dollabill-apple/branch/master/graph/badge.svg?token=aVY76EstWN" alt="codecov"></a></p>
 			<a href="#why-use-dolla-bill" id="why-use-dolla-bill" style="color: inherit; text-decoration: none;">
 				<h1>Why use dolla bill?</h1>
 			</a>
 			<p>When you are accepting in-app purchases in an iOS mobile app, you need to verify the transaction and continuously update your customer&#39;s subscription status. This verification and parsing of the responses back from Apple is boilerplate. This small module exists to help you with these tasks.</p>
 			<ul>
 				<li><input checked="" disabled="" type="checkbox"> <strong>No dependencies</strong>. This module tries to be as small as possible.</li>
-				<li><input checked="" disabled="" type="checkbox"> <strong>Fully tested</strong>. Automated testing (with high test coverage) + QA testing gives you the confidence that the module will work well for you.</li>
+				<li><input checked="" disabled="" type="checkbox"> <strong>Fully tested</strong>. Automated testing (with high test coverage) + QA testing gives you the confidence that the module will work well for you. <a href="https://codecov.io/gh/levibostian/dollabill-apple"><img src="https://codecov.io/gh/levibostian/dollabill-apple/branch/beta/graph/badge.svg?token=aVY76EstWN" alt="codecov"></a></li>
 				<li><input checked="" disabled="" type="checkbox"> <strong>Complete API documentation</strong> to more easily use it in your code.</li>
 				<li><input checked="" disabled="" type="checkbox"> <strong>Up-to-date</strong> If and when Apple changes the way you perform verification or Apple adds more features to verification, update this module and your projects can take advantage of the changes quickly and easily.</li>
 				<li><input checked="" disabled="" type="checkbox"> <strong>Typescript typings</strong> This project is written in Typescript for that strict typing goodness.</li>
@@ -203,34 +214,175 @@
 			<a href="#getting-started" id="getting-started" style="color: inherit; text-decoration: none;">
 				<h1>Getting started</h1>
 			</a>
-			<pre><code class="language-ts"><span class="hljs-keyword">import</span> dollaBill <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;dollabill&quot;</span>
+			<a href="#verify-receipt" id="verify-receipt" style="color: inherit; text-decoration: none;">
+				<h4>Verify Receipt</h4>
+			</a>
+			<ol>
+				<li>First, you need to send the receipt that StoreKit has given you to dollabill for verifying:</li>
+			</ol>
+			<pre><code class="language-ts"><span class="hljs-keyword">import</span> {verifyReceipt, isFailure, AutoRenewableSubscription} <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;dollabill-apple&quot;</span>
+<span class="hljs-comment">// Note: The typescript typings for the raw Apple responses are in the npm module: types-apple-iap</span>
+<span class="hljs-comment">// Full API documentation is also available for those typings: https://github.com/levibostian/types-apple-iap/#documentation</span>
+<span class="hljs-keyword">import</span> { AppleReceipt } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;types-apple-iap&quot;</span>
 
-<span class="hljs-keyword">const</span> receiptFromStoreKit = <span class="hljs-comment">// The base64 encoded receipt data that StoreKit gave your app</span>
+<span class="hljs-keyword">const</span> receiptFromStoreKit = <span class="hljs-comment">// base64 encoded string StoreKit has given you in your app. </span>
 
-<span class="hljs-keyword">const</span> appleResponse = <span class="hljs-keyword">await</span> dollaBill.verifyReceipt({
-    <span class="hljs-attr">appPassword</span>: process.env.APPLE_IN_APP_PURCHASE_PASSWORD,
-    <span class="hljs-attr">receipt</span>: receiptFromStoreKit
+<span class="hljs-comment">// It&#x27;s optional to wrap verifyReceipt() in a try/catch. </span>
+<span class="hljs-comment">// If an error is thrown, more then likely it&#x27;s a bug with our module, not your code. </span>
+<span class="hljs-comment">// All errors that *could* happen are caught for you and returned from the Promise.</span>
+<span class="hljs-keyword">const</span> appleResponse = <span class="hljs-keyword">await</span> verifyReceipt({
+  <span class="hljs-attr">receipt</span>: receiptFromStoreKit,
+  <span class="hljs-attr">sharedSecret</span>: process.env.APP_STORE_CONNECT_SHARED_SECRET <span class="hljs-comment">// https://stackoverflow.com/a/56128978/1486374</span>
 })
 
-<span class="hljs-comment">// If an error happens, it&#x27;s fatal. It means that there is a bug with this library (create a GitHub issue with stacktrace and other info, please) or you the developer made a mistake when using this library.</span>
-
-<span class="hljs-comment">// It&#x27;s recommended that you, the developer, views the error message and stacktrace to fix the issue. Note: The error here is not meant to be shown to your users.</span>
-
-<span class="hljs-keyword">if</span> (!appleResponse.isValid) {
-    <span class="hljs-comment">// There was a problem. The request was valid and can be retried.</span>
-
-    <span class="hljs-comment">// look at the error and act on it however you wish.</span>
-    <span class="hljs-comment">// It&#x27;s recommended that you log the error and then return back a message to your users saying there was a problem. The error here is meant for the developer to see, not a good error to return back to the user.</span>
-    appleResponse.error
+<span class="hljs-keyword">if</span> (isFailure(appleResponse)) { 
+  <span class="hljs-comment">// There was a problem. The receipt was not valid, the shared secret you passed in didn&#x27;t match. The receipt is not valid. Apple&#x27;s servers were down. </span>
+  <span class="hljs-comment">// It&#x27;s recommended that you, the developer, log the error. We have tried to make the error messages developer friendly to help you fix the problem. </span>
+  <span class="hljs-comment">// It&#x27;s *not* recommended that you return the error to your customer. You should return back your own message as the error here is not human friendly. </span>
 } <span class="hljs-keyword">else</span> {
-    <span class="hljs-comment">// Time for you to update your database with the status of your customer and their subscription.</span>
-    <span class="hljs-comment">// This is easy because dolla bill parses the response from Apple to be easily readable.</span>
-    <span class="hljs-comment">// Check out the API documentation to learn about what `appleResponse` properties there are.</span>
+  <span class="hljs-comment">// The receipt has been verified by Apple and parsed by the module! Yay!</span>
+
+  <span class="hljs-comment">// API reference for the result object: https://levibostian.github.io/dollabill-apple/api/interfaces/parsedreceipt.html</span>
+
+  <span class="hljs-comment">// Time for you to update your database with the status of your customer and their subscription.</span>
+  <span class="hljs-comment">// This is easy because dolla bill parses the response from Apple to be easily readable.</span>
+  <span class="hljs-comment">// Check out the API documentation to learn about what `appleResponse` properties there are.</span>
+
+  handleSuccessfulResult(appleResponse)
+}</code></pre>
+			<ol start="2">
+				<li>Then, you need to write all of your logic for handling the response from dollabill. </li>
+			</ol>
+			<pre><code class="language-ts"><span class="hljs-comment">// dollabill produces the same result when verifying receipts *and* </span>
+<span class="hljs-comment">// parsing server-to-server notifications. This means you can re-use</span>
+<span class="hljs-comment">// your app&#x27;s logic for handling the result of each!</span>
+<span class="hljs-keyword">const</span> handleSuccessfulResult = (result: ParsedResult): <span class="hljs-function"><span class="hljs-params">void</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> subscriptions: AutoRenewableSubscription[] = result.autoRenewableSubscriptions
+  <span class="hljs-comment">// You shouldn&#x27;t need to, but you can access the raw response from Apple. </span>
+  <span class="hljs-comment">// Hopefully, dollabill has parsed enough helpful information for you that you don&#x27;t need to use this. It&#x27;s here just in case. </span>
+  result.rawResponse
+
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">`App where purchase was made: <span class="hljs-subst">${result.bundleId}</span>`</span>)
+
+  <span class="hljs-comment">// API for subscription: https://levibostian.github.io/dollabill-apple/api/interfaces/autorenewablesubscription.html</span>
+  subscriptions.forEach(<span class="hljs-function"><span class="hljs-params">subscription</span> =&gt;</span> {
+    <span class="hljs-comment">// It&#x27;s up to you to write all of the code needed to update your customer&#x27;s subscription statuses. At this time, Apple recommended you maintain a database stored with:</span>
+    <span class="hljs-comment">// 1. The original transaction id for each subscription: </span>
+    subscription.originalTransactionId
+    <span class="hljs-comment">// 2. The current end date that the subscription is valid for. You can use: </span>
+    subscription.expireDate
+    <span class="hljs-comment">// but this does not account for grace periods or refund/cancellations. Dolla bill provides a convenient Date property instead:</span>
+    subscription.currentEndDate
+    <span class="hljs-comment">// 3. Keep track if the customer is eligible for a subscription offer or not. </span>
+    subscription.isEligibleIntroductoryOffer
+    <span class="hljs-comment">// Eligibility for intro offers is grouped by the subscription group, not by the original transaction id. So make sure you keep track of the subscription group, too:</span>
+    subscription.subscriptionGroup
+    <span class="hljs-comment">// 4. Keep the latest receipt in case you need to call `verifyReceipt()` in the future to get a status of the customer&#x27;s subscription:</span>
+    result.latestReceipt
+
+    <span class="hljs-comment">// Beyond these basics, there are more advanced things you can do. Some things to help reduce the number of customers leaving your subscription.</span>
+    subscription.issues.notYetAcceptingPriceIncrease <span class="hljs-comment">// Customer has been notified about price increase but not accepting it yet. </span>
+    subscription.issues.willVoluntaryCancel          <span class="hljs-comment">// Customer will not automatically renew </span>
+    subscription.issues.billingIssue                 <span class="hljs-comment">// Customer is having billing issues with renewing. </span>
+
+    subscription.status <span class="hljs-comment">// Gives a status telling you quickly what state the subscription is in. </span>
+  })
+}</code></pre>
+			<pre><code class="language-ts"></code></pre>
+			<a href="#server-to-server-notification" id="server-to-server-notification" style="color: inherit; text-decoration: none;">
+				<h4>Server-to-server notification</h4>
+			</a>
+			<p>Super easy, especially if you have already written your code for verifying receipts. </p>
+			<pre><code class="language-ts"><span class="hljs-comment">// Note: The typescript typings for the raw Apple responses are in the npm module: types-apple-iap</span>
+<span class="hljs-comment">// Full API documentation is also available for those typings: https://github.com/levibostian/types-apple-iap/#documentation</span>
+<span class="hljs-keyword">import</span> { AppleServerNotificationResponseBody } <span class="hljs-keyword">from</span> <span class="hljs-string">&quot;types-apple-iap&quot;</span>
+
+<span class="hljs-keyword">const</span> notification: AppleServerNotificationResponseBody = <span class="hljs-comment">// server notification sent to you by Apple </span>
+
+<span class="hljs-keyword">const</span> parsedResult = parseServerToServerNotification({
+  <span class="hljs-attr">sharedSecret</span>: <span class="hljs-string">&quot;foo&quot;</span>,
+  <span class="hljs-attr">responseBody</span>: notification
+})
+
+<span class="hljs-keyword">if</span> (isFailure(parsedResult)) {
+  <span class="hljs-comment">// There was a problem. More then likely the shared secret you provided does not match the one in the notification. This means you, the developer, made a typo or there is a malicious person trying to send you fake notifications. </span>
+
+  <span class="hljs-built_in">console</span>.error(parsedResult)
+} <span class="hljs-keyword">else</span> {
+  <span class="hljs-comment">// The notification has been parsed successfully!</span>
+
+  <span class="hljs-comment">// The result type is the same as the result type of `verifyReceipt()` which means that you can </span>
+  <span class="hljs-comment">// re-use the same logic in your app to update the customer&#x27;s subscription status! </span>
+  handleSuccessfulResult(parsedResult)
 }</code></pre>
 			<a href="#documentation" id="documentation" style="color: inherit; text-decoration: none;">
 				<h1>Documentation</h1>
 			</a>
-			<p>// TODO</p>
+			<p>Full API documentation is hosted <a href="https://levibostian.github.io/dollabill-apple/api/">here</a>. The documentation, as of now, is a little busy because it includes all code including internal code not meant for you to use. </p>
+			<p>Convenient quick links:</p>
+			<ul>
+				<li><a href="https://levibostian.github.io/dollabill-apple/api/interfaces/parsedreceipt.html">Result type for <code>verifyReceipt()</code> and <code>parseServerToServerNotification()</code></a></li>
+				<li><a href="https://levibostian.github.io/dollabill-apple/api/interfaces/autorenewablesubscription.html">Auto-renewable subscription</a></li>
+				<li><a href="https://levibostian.github.io/dollabill-apple/api/interfaces/productpurchase.html">Product purchase (consumable, non-consumable, not auto-renewing subscription)</a></li>
+			</ul>
+			<a href="#tests" id="tests" style="color: inherit; text-decoration: none;">
+				<h1>Tests</h1>
+			</a>
+			<a href="#debug-in-vscode" id="debug-in-vscode" style="color: inherit; text-decoration: none;">
+				<h3>Debug in VSCode</h3>
+			</a>
+			<p>The example project is setup to be debuggable. </p>
+			<p>First, run <code>npm run build</code> to build the module. The example requires it. Then, you can go into the debugger view in VSCode and run &quot;Debug example&quot; task. It will trigger breakpoints in the module code <em>or</em> the example code. </p>
+			<a href="#automated-tests" id="automated-tests" style="color: inherit; text-decoration: none;">
+				<h3>Automated tests</h3>
+			</a>
+			<pre><code>npm <span class="hljs-keyword">run</span><span class="bash"> <span class="hljs-built_in">test</span></span></code></pre>
+			<a href="#qa-testing" id="qa-testing" style="color: inherit; text-decoration: none;">
+				<h3>QA testing</h3>
+			</a>
+			<ul>
+				<li>First, you need a receipt. To get that, you need a paid Apple developer membership account (because you cannot generate a Receipt without access to App Store Connect). </li>
+			</ul>
+			<p>To create a Receipt, follow these steps:</p>
+			<ol>
+				<li>Go into App Store Connect and create an example app if you do not have one already. Create subscriptions, consumables, etc. Whatever you want. Also set a shared secret which is found in the subscriptions section of your app in App Store Connect.</li>
+				<li><a href="https://developer.apple.com/documentation/storekit/in-app_purchase/offering_completing_and_restoring_in-app_purchases">Download and run the example iOS app from Apple</a></li>
+			</ol>
+			<p>Find this code in the app:</p>
+			<pre><code class="language-swift">    <span class="hljs-function"><span class="hljs-keyword">func</span> <span class="hljs-title">paymentQueue</span><span class="hljs-params">(<span class="hljs-number">_</span> queue: SKPaymentQueue,updatedTransactions transactions: [SKPaymentTransaction])</span></span> {
+        <span class="hljs-keyword">for</span> transaction <span class="hljs-keyword">in</span> transactions {
+          <span class="hljs-keyword">switch</span> transaction.transactionState {
+              <span class="hljs-keyword">case</span> .purchased: <span class="hljs-comment">// &lt;-------- This line is what we are looking for</span>
+          }
+        }
+        <span class="hljs-comment">//Handle transaction states here.</span>
+    }</code></pre>
+			<p>Add this code:</p>
+			<pre><code class="language-swift"><span class="hljs-keyword">case</span> .purchased: <span class="hljs-comment">// &lt;----------- This case is what we are adding to.</span>
+<span class="hljs-keyword">if</span> <span class="hljs-keyword">let</span> appStoreReceiptURL = <span class="hljs-type">Bundle</span>.main.appStoreReceiptURL,
+    <span class="hljs-type">FileManager</span>.<span class="hljs-keyword">default</span>.fileExists(atPath: appStoreReceiptURL.path) {
+
+    <span class="hljs-keyword">do</span> {
+        <span class="hljs-keyword">let</span> rawReceiptData = <span class="hljs-keyword">try</span> <span class="hljs-type">Data</span>(contentsOf: appStoreReceiptURL)
+        <span class="hljs-keyword">let</span> receipt = rawReceiptData.base64EncodedString(options: [])
+
+        <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Receipt: \(receipt)&quot;</span>)
+
+        queue.finishTransaction(transaction)        
+    }
+    <span class="hljs-keyword">catch</span> { <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;Couldn&#x27;t read receipt data with error: &quot;</span> + error.localizedDescription) }
+}  </code></pre>
+			<ol start="3">
+				<li><p>Run the example app on your computer in simulator or device as a development build. Make a purchase. You will see in the XCode console a line <code>Receipt: XXXXXXX</code>. Copy the very long string that is printed. That&#39;s your receipt. </p>
+				</li>
+				<li><p>Run: <code>cp example/secrets.json.example example/secrets.json</code> and then go into <code>example/secrets.json</code> and edit it to your receipt and shared secret you just got. </p>
+				</li>
+				<li><p>Time to run the QA test! Pretty easy. </p>
+				</li>
+			</ol>
+			<pre><code class="language-sh">npm run qa:setup <span class="hljs-comment"># You only need to run this once for setup.</span>
+npm run qa       <span class="hljs-comment"># Run the actual test </span></code></pre>
+			<p>You should expect the script to output to the console JSON of the parsed result. </p>
 			<a href="#contributors" id="contributors" style="color: inherit; text-decoration: none;">
 				<h2>Contributors</h2>
 			</a>
@@ -325,7 +477,7 @@
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Issue<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"not_yet_accepting_price_increase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"billing_issue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"will_voluntary_cancel"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L38">app/result/auto_renewable_subscription.ts:38</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L38">app/result/auto_renewable_subscription.ts:38</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -340,7 +492,7 @@
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Refund<wbr>Reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"upgrade"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"app_issue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"other"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L3">app/result/auto_renewable_subscription.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L3">app/result/auto_renewable_subscription.ts:3</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -350,7 +502,7 @@
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"active"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"billing_retry_period"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"grace_period"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"voluntary_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"upgraded"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"involuntary_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"refunded"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"other_not_active"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L68">app/result/auto_renewable_subscription.ts:68</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L68">app/result/auto_renewable_subscription.ts:68</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -379,7 +531,7 @@
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>cancelledDate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>expiresDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>inIntroPeriod<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>inTrialPeriod<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isFirstSubscriptionPurchase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isRenewOrRestore<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isUpgradeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>offerCodeRefName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>originalPurchaseDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>originalTransactionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>productId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>promotionalOfferId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>purchaseDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>rawTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AppleLatestReceiptInfo</span><span class="tsd-signature-symbol">; </span>refundReason<span class="tsd-signature-symbol">?: </span><a href="globals.html#autorenewablesubscriptionrefundreason" class="tsd-signature-type">AutoRenewableSubscriptionRefundReason</a><span class="tsd-signature-symbol">; </span>subscriptionGroupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>webOrderLineItemId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L8">app/result/auto_renewable_subscription.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L8">app/result/auto_renewable_subscription.ts:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -463,7 +615,7 @@
 				<div class="tsd-signature tsd-kind-icon">Parse<wbr>Result<span class="tsd-signature-symbol">:</span> <a href="interfaces/parsedresult.html" class="tsd-signature-type">ParsedResult</a><span class="tsd-signature-symbol"> | </span><a href="classes/notvalidnotification.html#error" class="tsd-signature-type">Error</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/index.ts#L26">app/index.ts:26</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L26">app/index.ts:26</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -482,7 +634,7 @@
 				<div class="tsd-signature tsd-kind-icon">apple<wbr>Production<wbr>Verify<wbr>Receipt<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://buy.itunes.apple.com/verifyReceipt"</span><span class="tsd-signature-symbol"> = &quot;https://buy.itunes.apple.com/verifyReceipt&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/constants.ts#L8">app/constants.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L8">app/constants.ts:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -498,7 +650,7 @@
 				<div class="tsd-signature tsd-kind-icon">apple<wbr>Sandbox<wbr>Verify<wbr>Receipt<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://sandbox.itunes.apple.com/verifyReceipt"</span><span class="tsd-signature-symbol"> = &quot;https://sandbox.itunes.apple.com/verifyReceipt&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/constants.ts#L12">app/constants.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L12">app/constants.ts:12</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -514,7 +666,7 @@
 				<div class="tsd-signature tsd-kind-icon">bug<wbr>Report<wbr>Link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://github.com/levibostian/dollabill-apple/issues/new?template&#x3D;BUG_REPORT.md"</span><span class="tsd-signature-symbol"> = &#x60;https://github.com/levibostian/dollabill-apple/issues/new?template&#x3D;BUG_REPORT.md&#x60;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/constants.ts#L4">app/constants.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L4">app/constants.ts:4</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -537,7 +689,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/verify_receipt/error.ts#L29">app/parse/verify_receipt/error.ts:29</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L29">app/parse/verify_receipt/error.ts:29</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -569,7 +721,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/verify_receipt/error.ts#L17">app/parse/verify_receipt/error.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L17">app/parse/verify_receipt/error.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -598,7 +750,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/verify_receipt/error.ts#L7">app/parse/verify_receipt/error.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L7">app/parse/verify_receipt/error.ts:7</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -627,7 +779,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/index.ts#L40">app/index.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L40">app/index.ts:40</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -655,10 +807,19 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/common/purchase/index.ts#L8">app/parse/common/purchase/index.ts:8</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/common/purchase/index.ts#L17">app/parse/common/purchase/index.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Here, we are parsing the latest receipt info <em>and</em> in-app purchase transactions.</p>
+							</div>
+							<p>This is because (1) I am still confused by Apple&#39;s documentation on what one to use, when.
+								(2) the latest receipt info contains the latest transactions which is great, but the
+								latest receipt info is only available when the receipt contains auto-renewable subscriptions.
+								(3) This document: <a href="https://developer.apple.com/documentation/appstoreservernotifications/unified_receipt">https://developer.apple.com/documentation/appstoreservernotifications/unified_receipt</a>
+								says that <code>latest_receipt_info</code> only contains the latest 100 receipt transactions. So, I also want to process
+							the in_app transactions, too.</p>
 							<dl class="tsd-comment-tags">
 								<dt>internal</dt>
 								<dd></dd>
@@ -687,7 +848,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/verify_receipt.ts#L18">app/verify_receipt.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/verify_receipt.ts#L18">app/verify_receipt.ts:18</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -715,7 +876,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/index.ts#L54">app/index.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L54">app/index.ts:54</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -738,13 +899,13 @@
 				<a name="parsesubscriptions" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> parse<wbr>Subscriptions</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">parse<wbr>Subscriptions<span class="tsd-signature-symbol">(</span>latestReceiptInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AppleLatestReceiptInfo</span><span class="tsd-signature-symbol">[]</span>, pendingRenewalInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ApplePendingRenewalInfo</span><span class="tsd-signature-symbol">[]</span>, inAppTransactions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AppleInAppPurchaseTransaction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/autorenewablesubscription.html" class="tsd-signature-type">AutoRenewableSubscription</a><span class="tsd-signature-symbol">[]</span></li>
+					<li class="tsd-signature tsd-kind-icon">parse<wbr>Subscriptions<span class="tsd-signature-symbol">(</span>latestReceiptInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">AppleLatestReceiptInfo</span><span class="tsd-signature-symbol">[]</span>, pendingRenewalInfo<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ApplePendingRenewalInfo</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/autorenewablesubscription.html" class="tsd-signature-type">AutoRenewableSubscription</a><span class="tsd-signature-symbol">[]</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/common/auto_renewable_subscription/index.ts#L11">app/parse/common/auto_renewable_subscription/index.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/common/auto_renewable_subscription/index.ts#L11">app/parse/common/auto_renewable_subscription/index.ts:11</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -760,9 +921,6 @@
 							</li>
 							<li>
 								<h5><span class="tsd-flag ts-flagOptional">Optional</span> pendingRenewalInfo: <span class="tsd-signature-type">ApplePendingRenewalInfo</span><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-							<li>
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> inAppTransactions: <span class="tsd-signature-type">AppleInAppPurchaseTransaction</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <a href="interfaces/autorenewablesubscription.html" class="tsd-signature-type">AutoRenewableSubscription</a><span class="tsd-signature-symbol">[]</span></h4>
@@ -780,7 +938,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/server_to_server/success.ts#L9">app/parse/server_to_server/success.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/server_to_server/success.ts#L9">app/parse/server_to_server/success.ts:9</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -802,7 +960,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/parse/verify_receipt/success.ts#L9">app/parse/verify_receipt/success.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/success.ts#L9">app/parse/verify_receipt/success.ts:9</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -833,7 +991,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/verify_receipt.ts#L22">app/verify_receipt.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/verify_receipt.ts#L22">app/verify_receipt.ts:22</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -864,7 +1022,7 @@
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/index.ts#L33">app/index.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L33">app/index.ts:33</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -892,7 +1050,7 @@
 				<div class="tsd-signature tsd-kind-icon">_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L1">app/underscore.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L1">app/underscore.ts:1</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
@@ -901,7 +1059,7 @@
 					<div class="tsd-signature tsd-kind-icon">array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L2">app/underscore.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L2">app/underscore.ts:2</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal tsd-has-type-parameter">
@@ -914,7 +1072,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L3">app/underscore.ts:3</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L3">app/underscore.ts:3</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -961,7 +1119,7 @@
 					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L15">app/underscore.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L15">app/underscore.ts:15</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
@@ -974,7 +1132,7 @@
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L43">app/underscore.ts:43</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L43">app/underscore.ts:43</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -1011,7 +1169,7 @@ nestedDates.sort((first, <span class="hljs-built_in">second</span>) =&gt; _.<spa
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/underscore.ts#L28">app/underscore.ts:28</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L28">app/underscore.ts:28</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">

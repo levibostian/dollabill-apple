@@ -217,9 +217,9 @@
 				</div>
 				<p>What is a subscription? It&#39;s simply a series of subscription periods where each period has a start time (purchase date) and an end time (expire date) where the customer&#39;s access to that product is active.</p>
 				<p>When the first purchase is made along with all future renewals (including when the customer restores a subscription after a billing issue) all of these transactions, free trials, discounts, all come together as subscription periods into a subscription.</p>
-				<p>Subscriptions are identified with the <a href="autorenewablesubscription.html#originaltransactionid">originalTransactionId</a>.</p>
+				<p>Subscriptions are identified by the list of transactions with the same <a href="autorenewablesubscription.html#originaltransactionid">originalTransactionId</a>.</p>
 				<blockquote>
-					<p>Note: This is auto-renewable <em>only</em>. Non aut-renewable subscriptions are up to you to handle how long they last and prompting your customers to purchase again.</p>
+					<p>Note: This is auto-renewable <em>only</em>. Non auto-renewable subscriptions are up to you to handle how long they last and prompting your customers to purchase again.</p>
 				</blockquote>
 			</div>
 		</section>
@@ -271,13 +271,16 @@
 				<div class="tsd-signature tsd-kind-icon">all<wbr>Transactions<span class="tsd-signature-symbol">:</span> <a href="../globals.html#autorenewablesubscriptiontransaction" class="tsd-signature-type">AutoRenewableSubscriptionTransaction</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L137">app/result/auto_renewable_subscription.ts:137</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L141">app/result/auto_renewable_subscription.ts:141</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>All transactions for this subscription. Ordered by <em>the expiration date</em> of the transaction with the latest expire date first in the list. This sort order is recommended by Apple as it&#39;s the method to use to determine the subscription periods of this subscription.</p>
 					</div>
+					<blockquote>
+						<p>Note: I know when I was first learning about auto-renewable subscriptions, I was wondering why Apple recommends you sort by expiration date when a customer could sign up for a 6 month subscription today but downgrade to a 1 month tomorrow. Wouldn&#39;t the sort order put the 6 month subscription before the 1 month subscription and give my customer 5 months, free? That should not happen because upgrades (go from 1 month to 6 month) are put into place immediately while downgrades (go from 6 month to 1 month) do not happen until the current subscription period ends. That means that if you downgrade tomorrow to 1 month, that 1 month subscription will not go into effect until 6 months from now. If you were to get a refund today for the 6 month subscription and then buy a 1 month subscription in the app, the refunded subscription would be cancelled and a new subscription would be purchased so that&#39;s handled, too.</p>
+					</blockquote>
 					<p>See <a href="autorenewablesubscription.html#latestexpiredatetransaction">latestExpireDateTransaction</a></p>
 				</div>
 			</section>
@@ -287,7 +290,7 @@
 				<div class="tsd-signature tsd-kind-icon">cancelled<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L179">app/result/auto_renewable_subscription.ts:179</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L185">app/result/auto_renewable_subscription.ts:185</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -302,7 +305,7 @@
 				<div class="tsd-signature tsd-kind-icon">current<wbr>End<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L113">app/result/auto_renewable_subscription.ts:113</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L113">app/result/auto_renewable_subscription.ts:113</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -321,12 +324,12 @@
 				<div class="tsd-signature tsd-kind-icon">current<wbr>Product<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L85">app/result/auto_renewable_subscription.ts:85</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L85">app/result/auto_renewable_subscription.ts:85</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The <code>product_id</code> of the subscription the customer is currently paying for or did pay for. If the user upgrades or downgrades their subscription in a subscription group, this value will change to the always be the most recent <code>product_id</code> that they chose.</p>
+						<p>The <code>product_id</code> of the subscription the customer is currently paying for or did pay for. This value may change if the customer changes to a different product.</p>
 					</div>
 				</div>
 			</section>
@@ -336,7 +339,7 @@
 				<div class="tsd-signature tsd-kind-icon">expire<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L185">app/result/auto_renewable_subscription.ts:185</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L191">app/result/auto_renewable_subscription.ts:191</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -352,7 +355,7 @@
 				<div class="tsd-signature tsd-kind-icon">grace<wbr>Period<wbr>Expire<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L175">app/result/auto_renewable_subscription.ts:175</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L181">app/result/auto_renewable_subscription.ts:181</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -370,12 +373,12 @@
 				<div class="tsd-signature tsd-kind-icon">is<wbr>Eligible<wbr>Introductory<wbr>Offer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L105">app/result/auto_renewable_subscription.ts:105</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L105">app/result/auto_renewable_subscription.ts:105</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Determine if the customer is eligible for an introductory offer. New customers are always eligible but existing customers who have not yet redeemed an offer are also eligible. This field determines if the customer has ever redeemed an offer.</p>
+						<p>Determine if the customer is eligible for an introductory offer. New customers are always eligible but existing customers who have not yet redeemed an offer are also eligible. This field determines if the customer has ever redeemed an offer for the subscription group this subscription belongs to.</p>
 					</div>
 					<p><a href="https://developer.apple.com/documentation/storekit/in-app_purchase/subscriptions_and_offers/implementing_introductory_offers_in_your_app">Learn more about how to implement intro offers in your app</a></p>
 				</div>
@@ -386,7 +389,7 @@
 				<div class="tsd-signature tsd-kind-icon">is<wbr>InBilling<wbr>Retry<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L191">app/result/auto_renewable_subscription.ts:191</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L197">app/result/auto_renewable_subscription.ts:197</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -402,7 +405,7 @@
 				<div class="tsd-signature tsd-kind-icon">is<wbr>InFree<wbr>Trial<wbr>Period<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L99">app/result/auto_renewable_subscription.ts:99</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L99">app/result/auto_renewable_subscription.ts:99</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -417,14 +420,14 @@
 				<div class="tsd-signature tsd-kind-icon">issues<span class="tsd-signature-symbol">:</span> <a href="autorenewablesubscriptionissues.html" class="tsd-signature-type">AutoRenewableSubscriptionIssues</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L163">app/result/auto_renewable_subscription.ts:163</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L169">app/result/auto_renewable_subscription.ts:169</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Various statuses about this subscription beyond if the customer should be given access to the paid content or not (see {@link subscriptionPaidStatus}). These values are meant to be helpful in notifying your customer, if you choose to do so, to reduce losing customers. Maybe the customer is having a billing issue and they need to update their credit card, maybe you have introduced a pricing increase and the customer has not yet accepted it yet. There are many scenarios and it&#39;s up to you to decide what to act upon.</p>
 					</div>
-					<p>See {@link actionableStatusesStrings} for a string version of this that can be stored in a database.</p>
+					<p>See {@link actionableStatusesStrings} for a string version.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -433,12 +436,12 @@
 				<div class="tsd-signature tsd-kind-icon">issues<wbr>Strings<span class="tsd-signature-symbol">:</span> <a href="../globals.html#autorenewablesubscriptionissuestring" class="tsd-signature-type">AutoRenewableSubscriptionIssueString</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L157">app/result/auto_renewable_subscription.ts:157</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L163">app/result/auto_renewable_subscription.ts:163</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Strings version of {@link actionableStatuses}.</p>
+						<p>Strings version of {@link actionableStatuses}. This strings version is convenient for storing in a database or sending to a client application for easy parsing. That way you can handle issues in the UI of your client apps and get the issues resolved.</p>
 					</div>
 				</div>
 			</section>
@@ -448,7 +451,7 @@
 				<div class="tsd-signature tsd-kind-icon">latest<wbr>Expire<wbr>Date<wbr>Transaction<span class="tsd-signature-symbol">:</span> <a href="../globals.html#autorenewablesubscriptiontransaction" class="tsd-signature-type">AutoRenewableSubscriptionTransaction</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L143">app/result/auto_renewable_subscription.ts:143</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L147">app/result/auto_renewable_subscription.ts:147</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -464,14 +467,14 @@
 				<div class="tsd-signature tsd-kind-icon">original<wbr>Transaction<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L91">app/result/auto_renewable_subscription.ts:91</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L91">app/result/auto_renewable_subscription.ts:91</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Used to identify a subscription.</p>
 					</div>
-					<p>When a customer upgrades/downgrades/downgrades, gets a refund then this subscription will be cancelled and a new subscription will be created. This identifier will be used through all renews and restores of the subscription. Do not rely on the <a href="autorenewablesubscription.html#currentproductid">currentProductId</a> or <a href="autorenewablesubscription.html#subscriptiongroup">subscriptionGroup</a> to identify a subscription as there could be multiple subscriptions with the same product id or subscription group id (Example: one subscription is active while another was cancelled).</p>
+					<p>When a customer upgrades/downgrades/crossgrades, gets a refund then this subscription will be cancelled and a new subscription will be created. This identifier will be used through all renews and restores of the subscription. Do not rely on the <a href="autorenewablesubscription.html#currentproductid">currentProductId</a> or <a href="autorenewablesubscription.html#subscriptiongroup">subscriptionGroup</a> to identify a subscription as there could be multiple subscriptions with the same product id or subscription group id (Example: one subscription is active while another was cancelled).</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -480,14 +483,14 @@
 				<div class="tsd-signature tsd-kind-icon">price<wbr>Increase<wbr>Accepted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L169">app/result/auto_renewable_subscription.ts:169</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L175">app/result/auto_renewable_subscription.ts:175</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>If the customer has accepted the price increase yet.</p>
+						<p>If the customer has been notified and then accepted a price increase.</p>
 					</div>
-					<p>This value is populated if the customer has been notified of the increase. If it&#39;s undefined, the customer has not yet been notified.</p>
+					<p>This value is populated only if the customer has been notified of the increase. If it&#39;s undefined, the customer has not yet been notified or there is not a price increase happening.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -496,7 +499,7 @@
 				<div class="tsd-signature tsd-kind-icon">status<span class="tsd-signature-symbol">:</span> <a href="../globals.html#autorenewablesubscriptionstatus" class="tsd-signature-type">AutoRenewableSubscriptionStatus</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L121">app/result/auto_renewable_subscription.ts:121</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L119">app/result/auto_renewable_subscription.ts:119</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -506,7 +509,6 @@
 					<blockquote>
 						<p>Note: This value does <em>not</em> determine if the customer will renew or not. It is more designed to determine their paid status <em>at this moment</em>. See {@link actionableStatuses} to get info about the future of the subscription.</p>
 					</blockquote>
-					<p>See {@link giveAccessToContent} for a simple true/false if you should give the customer access to the paid content or not.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -515,12 +517,12 @@
 				<div class="tsd-signature tsd-kind-icon">subscription<wbr>Group<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L95">app/result/auto_renewable_subscription.ts:95</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L95">app/result/auto_renewable_subscription.ts:95</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The subscription group of the subscription.</p>
+						<p>The subscription group the subscription&#39;s product_id belongs to.</p>
 					</div>
 				</div>
 			</section>
@@ -530,7 +532,7 @@
 				<div class="tsd-signature tsd-kind-icon">used<wbr>Offer<wbr>Codes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L127">app/result/auto_renewable_subscription.ts:127</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L127">app/result/auto_renewable_subscription.ts:127</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -538,6 +540,9 @@
 						<p>If the customer has redeemed an offer code, this field will be populated with the reference name that you set for the offer.</p>
 					</div>
 					<p>You determine in App Store Connect is an offer code is available for new, active, or expired users.</p>
+					<blockquote>
+						<p>Note: This is a unique list based off the reference name. If the same offer is used multiple times, it&#39;s only listed here once.</p>
+					</blockquote>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -546,9 +551,17 @@
 				<div class="tsd-signature tsd-kind-icon">used<wbr>Promotional<wbr>Offers<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L131">app/result/auto_renewable_subscription.ts:131</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L133">app/result/auto_renewable_subscription.ts:133</a></li>
 					</ul>
 				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>If the customer has used any promotional offers for this subscription, all of them are listed here.</p>
+					</div>
+					<blockquote>
+						<p>Note: This is a unique list based off the reference name. If the same offer is used multiple times, it&#39;s only listed here once.</p>
+					</blockquote>
+				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 				<a name="willautorenew" class="tsd-anchor"></a>
@@ -556,13 +569,14 @@
 				<div class="tsd-signature tsd-kind-icon">will<wbr>Auto<wbr>Renew<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L149">app/result/auto_renewable_subscription.ts:149</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L155">app/result/auto_renewable_subscription.ts:155</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>If the customer is currently planning on automatically renewing their subscription. A customer at anytime may decide to go into their Apple account and setup their subscription to cancel after their current subscription period expires.</p>
+						<p>If the customer is currently planning on automatically renewing their subscription.</p>
 					</div>
+					<p>A customer at anytime may decide to go into their Apple account and setup their subscription to cancel after their current subscription period expires.</p>
 					<blockquote>
 						<p>Note: This value is also true if the customer is going to downgrade to another product at the end of the subscription period. Just because they will auto renew does not mean they will auto renew the current product. See <a href="autorenewablesubscription.html#willdowngradetoproductid">willDowngradeToProductId</a>.</p>
 					</blockquote>
@@ -574,7 +588,7 @@
 				<div class="tsd-signature tsd-kind-icon">will<wbr>Downgrade<wbr>ToProduct<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/auto_renewable_subscription.ts#L153">app/result/auto_renewable_subscription.ts:153</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L159">app/result/auto_renewable_subscription.ts:159</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">

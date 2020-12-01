@@ -22,24 +22,24 @@ const handleSuccessfulResult = (result: ParsedResult): void => {
   subscriptions.forEach(subscription => {
     // It's up to you to write all of the code needed to update your customer's subscription statuses. At this time, Apple recommended you maintain a database stored with:
     // 1. The original transaction id for each subscription: 
-    subscription.originalTransactionId
+    console.log(subscription.originalTransactionId)
     // 2. The current end date that the subscription is valid for. You can use: 
-    subscription.expireDate
+    console.log(subscription.expireDate)
     // but this does not account for grace periods or refund/cancellations. Dolla bill provides a convenient Date property instead:
-    subscription.currentEndDate
+    console.log(subscription.currentEndDate)
     // 3. Keep track if the customer is eligible for a subscription offer or not. 
-    subscription.isEligibleIntroductoryOffer
+    console.log(subscription.isEligibleIntroductoryOffer)
     // Eligibility for intro offers is grouped by the subscription group, not by the original transaction id. So make sure you keep track of the subscription group, too:
-    subscription.subscriptionGroup
+    console.log(subscription.subscriptionGroup)
     // 4. Keep the latest receipt in case you need to call `verifyReceipt()` in the future to get a status of the customer's subscription:
-    result.latestReceipt
+    console.log(result.latestReceipt)
     
     // Beyond these basics, there are more advanced things you can do. Some things to help reduce the number of customers leaving your subscription.
-    subscription.issues.notYetAcceptingPriceIncrease // Customer has been notified about price increase but not accepting it yet. 
-    subscription.issues.willVoluntaryCancel          // Customer will not automatically renew 
-    subscription.issues.billingIssue                 // Customer is having billing issues with renewing. 
+    console.log(subscription.issues.notYetAcceptingPriceIncrease) // Customer has been notified about price increase but not accepting it yet. 
+    console.log(subscription.issues.willVoluntaryCancel)          // Customer will not automatically renew 
+    console.log(subscription.issues.billingIssue)                 // Customer is having billing issues with renewing. 
 
-    subscription.status // Gives a status telling you quickly what state the subscription is in. 
+    console.log(subscription.status) // Gives a status telling you quickly what state the subscription is in. 
   })
 }
 

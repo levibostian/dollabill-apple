@@ -177,7 +177,7 @@
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>The common parsed results between all functions in this module. This type is important because we want devs who use this module to be able to use the same code-base for handling the result.</p>
+					<p>The parsed result for all functions in this module. By having a type that is the same across the module, developers can re-use the same logic for updating their customer&#39;s subscription statuses.</p>
 				</div>
 			</div>
 		</section>
@@ -217,7 +217,7 @@
 				<div class="tsd-signature tsd-kind-icon">app<wbr>Version<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L24">app/result/parsed_result.ts:24</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L24">app/result/parsed_result.ts:24</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -235,14 +235,14 @@
 				<div class="tsd-signature tsd-kind-icon">auto<wbr>Renewable<wbr>Subscriptions<span class="tsd-signature-symbol">:</span> <a href="autorenewablesubscription.html" class="tsd-signature-type">AutoRenewableSubscription</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L30">app/result/parsed_result.ts:30</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L30">app/result/parsed_result.ts:30</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>All of the auto-renewable subscriptions for the customer. There is an object for each subscription. If the user has upgraded/downgraded a subscription that&#39;s within the same subscription group, you will still only see 1 object with that upgrade/downgrade in. This array will contain 1 object for each subscription purchase the customer has made.</p>
+						<p>All of the auto-renewable subscriptions for the customer. <em>There is an object for each subscription.</em> Each object is a collection of transactions with the same <code>original_transaction_id</code>.</p>
 					</div>
-					<p>Note: How is this determined? Each object in this array represents a unique <code>original_transaction_id</code></p>
+					<p>This list has no order. It&#39;s meant for you to iterate through and update the status of your customer for each subscription.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -251,7 +251,7 @@
 				<div class="tsd-signature tsd-kind-icon">bundle<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L18">app/result/parsed_result.ts:18</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L18">app/result/parsed_result.ts:18</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -266,7 +266,7 @@
 				<div class="tsd-signature tsd-kind-icon">environment<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"Sandbox"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"Production"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L14">app/result/parsed_result.ts:14</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L14">app/result/parsed_result.ts:14</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -282,7 +282,7 @@
 				<div class="tsd-signature tsd-kind-icon">latest<wbr>Receipt<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L50">app/result/parsed_result.ts:50</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L48">app/result/parsed_result.ts:48</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -301,15 +301,16 @@
 				<div class="tsd-signature tsd-kind-icon">notification<wbr>Reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AppleServerNotificationType</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L60">app/result/parsed_result.ts:60</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L62">app/result/parsed_result.ts:62</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<blockquote>
-							<p>Note: Only present when a server-to-server notification was parsed.</p>
-						</blockquote>
+						<p>The reason for the notification from Apple.</p>
 					</div>
+					<blockquote>
+						<p>Note: Only present when a server-to-server notification was parsed.</p>
+					</blockquote>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -318,12 +319,12 @@
 				<div class="tsd-signature tsd-kind-icon">product<wbr>Purchases<span class="tsd-signature-symbol">:</span> <a href="productpurchases.html" class="tsd-signature-type">ProductPurchases</a><span class="tsd-signature-symbol">[]</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L42">app/result/parsed_result.ts:42</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L40">app/result/parsed_result.ts:40</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Consumables, non-consumables, and non auto-renewable subscriptions.</p>
+						<p>Consumables, non-consumables, and not auto-renewable subscriptions. <em>There is an object for product.</em> Each object is a collection of transactions with the same <code>product_id</code>.</p>
 					</div>
 					<ul>
 						<li>Consumable: A product that is used once, after which it becomes depleted and must be purchased again. Example: Fish food for a fishing app.</li>
@@ -331,7 +332,6 @@
 						<li>Non auto-renewable subscription: A subscription type where you are responsible for determining when it expires and you prompt the customer to make a new purchase.</li>
 					</ul>
 					<p>This list is a list of all purchased delivered by Apple. It is up to you to unlock content, keep track of that has already been redeemed or expired. Consider this simply a list of receipts you must read through to determine the customer&#39;s status.</p>
-					<p>This list is sorted by <em>the purchase date</em> with the most recent purchase being first.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
@@ -340,14 +340,15 @@
 				<div class="tsd-signature tsd-kind-icon">raw<wbr>Response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">AppleVerifyReceiptResponseBodySuccess</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">AppleServerNotificationResponseBody</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/fc4ddda/app/result/parsed_result.ts#L56">app/result/parsed_result.ts:56</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/parsed_result.ts#L56">app/result/parsed_result.ts:56</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>The raw JSON response back from Apple. This exists in case this library has not been updated, something new gets released from Apple, and you need to access it.</p>
+						<p>The raw JSON response back from Apple. This exists in case this library has not been updated, something new gets released from Apple, and you need to access it. Hopefully you don&#39;t need to use it because that means this module provides enough value through it&#39;s parsing that you don&#39;t have a need for this.</p>
 					</div>
 					<p>The Typescript typings below are for your convenience. If Apple updates the response when they come out with a new feature and this library has not been updated to include this change from Apple, know that you can treat this field like <code>any</code> and access any property that you wish. This is simply the full, unmodified, response from Apple.</p>
+					<p>It&#39;s up to you to cast this property to one of the types depending on what feature of the module that you called. Example: If you just verified a receipt through this module, then you would cast <code>rawResponse</code> to <code>AppleVerifyReceiptResponseBodySuccess</code> before using it.</p>
 				</div>
 			</section>
 		</section>
