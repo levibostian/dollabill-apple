@@ -27,7 +27,7 @@ export const runVerifyReceipt = async (options: VerifyReceiptOptions, runOptions
 
     let verifyReceiptResponse: AppleVerifyReceiptResponseBody
     try {      
-      verifyReceiptResponse = await http.post({
+      const httpResult = await http.post({
         url,
         data: {
           "receipt-data": options.receipt,
@@ -35,6 +35,7 @@ export const runVerifyReceipt = async (options: VerifyReceiptOptions, runOptions
           "exclude-old-transactions": false // we always send false because the parsed results that this module makes will be missing lots of data without *all* of the transactions. The value of this module goes down a lot and you will get false positives since many fields such as *is eligible for intro offer* will probably show true when it's actually false. 
         }
       })
+      verifyReceiptResponse = httpResult.body
     } catch (httpError) { // https://github.com/brianleroux/tiny-json-http/blob/0c2b3372d8b9a838ac9a63645bf5212427c0ccf3/_write.js#L123-L126
       return httpError
     }

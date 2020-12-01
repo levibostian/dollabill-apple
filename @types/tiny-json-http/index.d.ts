@@ -6,10 +6,11 @@ declare type Options = {
   timeout?: number
 }
 
-declare type Callback = (err?: Error, res: { headers: any; body: any }) => void
+declare type Result = {body: any, headers: any};
+declare type Callback = (err?: Error, res: Result) => void
 
-export declare function post(options: Options): Promise<any>
+export declare function post(options: Options): Promise<Result>
 export declare function post(options: Options, callback: Callback): void
 
-export declare function get(options: Options): Promise<any>
+export declare function get(options: Options): Promise<Result>
 export declare function get(options: Options, callback: Callback): void

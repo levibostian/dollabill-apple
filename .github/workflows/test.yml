@@ -2,6 +2,8 @@ name: Test
 # only run on PRs and when push a commit on a branch that we don't deploy on. 
 on: 
   push:
+    branches:
+      - '*'
     # branches-ignore: # we deploy on these branches. No need to test on them. 
     # NOTE: We are enabling testing on these branches because we want codecov to generate a report on that branch so we have something to compare to. 
       # - 'master'

@@ -7,7 +7,7 @@ import { AppleVerifyReceiptResponseBodyError, AppleVerifyReceiptErrorCode, Apple
 export const isAppleResponseError = (
   response: AppleVerifyReceiptResponseBody
 ): response is AppleVerifyReceiptResponseBodyError => { 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any  
   return (response as any).receipt === undefined
 }
 
