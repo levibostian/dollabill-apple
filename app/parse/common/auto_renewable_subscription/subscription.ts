@@ -1,13 +1,13 @@
 import _ from "../../../underscore"
-import { ApplePendingRenewalInfo } from "../../apple_response/pending_renewal_info"
-import { InternalError } from "../error"
+import { ApplePendingRenewalInfo } from "types-apple-iap"
 import {
   AutoRenewableSubscription,
   AutoRenewableSubscriptionIssues,
   AutoRenewableSubscriptionIssueString,
   AutoRenewableSubscriptionStatus,
   AutoRenewableSubscriptionTransaction
-} from "../result/auto_renewable_subscription"
+} from "../../../result/auto_renewable_subscription"
+import { InternalError } from "../../../parse/verify_receipt/error"
 
 /**
  * Creates a parsed subscription from a collection of parsed transactions.

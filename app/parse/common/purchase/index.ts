@@ -1,18 +1,19 @@
-import { AppleVerifyReceiptSuccessfulResponse } from "../../apple_response/success"
-import { ProductPurchases } from "../result"
+import { AppleLatestReceiptInfo, AppleInAppPurchaseTransaction } from "types-apple-iap"
+import { ProductPurchases } from "../../../result"
 import { ParsedPurchases } from "./transaction"
 
 /**
  * @internal
  */
 export const parsePurchases = (
-  response: AppleVerifyReceiptSuccessfulResponse
+  latestReceiptInfo?: AppleLatestReceiptInfo[],  
+  inAppTransactions?: AppleInAppPurchaseTransaction[]    
 ): ProductPurchases[] => {
-  if (!response.receipt.in_app) return []
+  if (!inAppTransactions) return []
 
   const parsedPurchases = new ParsedPurchases()
 
-  response.receipt.in_app
+  inAppTransactions
     .filter((transaction) => ParsedPurchases.isPurchaseTransaction(transaction))
     .forEach((purchase) => parsedPurchases.addTransaction(purchase))
 

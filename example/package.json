@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "link": "npm link ../dist/",
-    "build": "npx tsc --noEmit"
+    "build": "npx tsc --noEmit",
+    "run": "npx ts-node app/index.ts"
   },
   "author": "",
   "license": "ISC",
@@ -13,9 +14,11 @@
     "dollabill-apple": "^0.1.0"
   },
   "devDependencies": {
-    "typescript": "^4.1.2",
     "@tsconfig/node12": "^1.0.7",
     "@types/jest": "^26.0.15",
-    "@types/node": "^14.14.7"
+    "@types/node": "^14.14.7",
+    "ts-node": "^9.0.0",
+    "types-apple-iap": "^1.0.1",
+    "typescript": "^4.1.2"
   }
 }

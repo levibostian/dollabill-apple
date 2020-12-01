@@ -66,6 +66,7 @@
     "semantic-release": "^17.0.4",
     "ts-jest": "^26.4.4",
     "typedoc": "^0.19.2",
+    "types-apple-iap": "^1.0.1",
     "typescript": "^4.0.5"
   },
   "dependencies": {

@@ -1,13 +1,32 @@
-import { AppleVerifyReceiptErrorCode, isAppleErrorCode } from "../apple_response/error"
-import { AppleVerifyReceiptErrorResponse } from "../apple_response/error"
 import { bugReportLink } from "../../constants"
+import { AppleVerifyReceiptResponseBodyError, AppleVerifyReceiptErrorCode, AppleVerifyReceiptResponseBody, AppleVerifyReceiptSuccessfulStatus } from "types-apple-iap"
+
+/**
+ * @internal
+ */
+export const isAppleResponseError = (
+  response: AppleVerifyReceiptResponseBody
+): response is AppleVerifyReceiptResponseBodyError => { 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (response as any).receipt === undefined
+}
+
+/**
+ * @internal
+ */
+export const isAppleErrorCode = (
+  code: number 
+): boolean => {  
+  // Important that we only check if successful codes because there are a finite number of successful codes and unlimited error codes.   
+  return !Object.values(AppleVerifyReceiptSuccessfulStatus).includes(code)
+}
 
 /**
  * Parses the HTTP response and returns back an Error meant for a developer's purpose. These errors below are meant to be more friendly to help the developer fix the issue. 
  * 
  * @internal
  */
-export const handleErrorResponse = (response: AppleVerifyReceiptErrorResponse): Error => {
+export const handleErrorResponse = (response: AppleVerifyReceiptResponseBodyError): Error => {
   const code = response.status
 
   if (!isAppleErrorCode(code)) throw new InternalError("ShouldNotHappen", "Function should only be called with statuses that are errors.")

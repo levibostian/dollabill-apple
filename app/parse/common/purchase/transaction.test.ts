@@ -1,4 +1,4 @@
-import { AppleInAppPurchaseTransaction } from "../../apple_response"
+import { AppleInAppPurchaseTransaction } from "types-apple-iap"
 import { ParsedPurchases } from "./transaction"
 
 let parsedPurchases: ParsedPurchases

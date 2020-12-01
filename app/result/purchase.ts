@@ -1,4 +1,4 @@
-import { AppleInAppPurchaseTransaction } from "../../apple_response";
+import { AppleInAppPurchaseTransaction } from "types-apple-iap";
 
 export interface ProductPurchaseTransaction {
   /**

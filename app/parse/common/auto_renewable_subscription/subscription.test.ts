@@ -1,7 +1,7 @@
-import { ApplePendingRenewalInfo } from "../../apple_response"
 import { ParsedSubscription } from "./subscription"
-import { AutoRenewableSubscriptionIssues } from "../result"
 import { parsedTransaction, parsedTransaction2 } from "../../../_.test"
+import { ApplePendingRenewalInfo } from "types-apple-iap"
+import { AutoRenewableSubscriptionIssues } from "../../../result"
 
 const pendingRenewalInfo: ApplePendingRenewalInfo = require("../../../../samples/will_autorenew_pending_renewal_info.json")
 const exampleDateMsString = "1605230970000"

@@ -1,21 +1,23 @@
-import { AppleVerifyReceiptSuccessfulResponse } from "../../apple_response/success"
 import {
   AutoRenewableSubscription,
-} from "../result/auto_renewable_subscription"
+} from "../../../result/auto_renewable_subscription"
 import { ParsedTransactions } from "./transactions"
 import { ParsedSubscription } from "./subscription"
+import { AppleInAppPurchaseTransaction, AppleLatestReceiptInfo, ApplePendingRenewalInfo } from "types-apple-iap"
 
 /**
  * @internal
  */
 export const parseSubscriptions = (
-  response: AppleVerifyReceiptSuccessfulResponse
+  latestReceiptInfo?: AppleLatestReceiptInfo[],
+  pendingRenewalInfo?: ApplePendingRenewalInfo[],
+  inAppTransactions?: AppleInAppPurchaseTransaction[]  
 ): AutoRenewableSubscription[] => {
-  if (!response.latest_receipt_info) return []
+  if (!latestReceiptInfo) return []
 
   const parsedTransactions = new ParsedTransactions()
 
-  response.latest_receipt_info
+  latestReceiptInfo
     .filter((transaction) => ParsedTransactions.isAutoRenewableSubscriptionTransaction(transaction))
     .forEach((subscription) => parsedTransactions.addTransaction(subscription))
 
@@ -24,7 +26,7 @@ export const parseSubscriptions = (
     const originalTransactionId = sampleTransaction.originalTransactionId
     const isEligibleIntroductoryOffer = parsedTransactions.getIsEligibleIntroductoryOffer(sampleTransaction)!
 
-    const renewalInfo = response.pending_renewal_info?.find(
+    const renewalInfo = pendingRenewalInfo?.find(
       (entry) => entry.original_transaction_id === originalTransactionId
     )
 

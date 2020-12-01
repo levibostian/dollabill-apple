@@ -1,5 +1,5 @@
-import { AppleLatestReceiptInfo } from "./verify_receipt/apple_response"
-import { AutoRenewableSubscriptionTransaction } from "./verify_receipt/parse/result"
+import { AppleLatestReceiptInfo } from "types-apple-iap"
+import { AutoRenewableSubscriptionTransaction } from "./result"
 
 /**
  * Global jest setup/teardown functions

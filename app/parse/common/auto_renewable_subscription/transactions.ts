@@ -1,9 +1,9 @@
-import { AppleLatestReceiptInfo } from "../../apple_response/latest_receipt_info"
-import { InternalError } from "../error"
+import { AppleLatestReceiptInfo } from "types-apple-iap"
 import {
   AutoRenewableSubscriptionRefundReason,
   AutoRenewableSubscriptionTransaction
-} from "../result/auto_renewable_subscription"
+} from "../../../result/auto_renewable_subscription"
+import { InternalError } from "../../../parse/verify_receipt/error"
 
 /**
  * Takes in a response from Apple transaction and produces a parsed transaction. Keeps track of all of them by grouping them together by subscription group.

@@ -1,7 +1,7 @@
 import _ from "../../../underscore"
-import { InternalError } from "../error"
-import { AppleInAppPurchaseTransaction } from "../../apple_response/receipt"
-import { ProductPurchases, ProductPurchaseTransaction } from "../result/purchase"
+import { ProductPurchases, ProductPurchaseTransaction } from "../../../result/purchase"
+import { InternalError } from "../../../parse/verify_receipt/error"
+import { AppleInAppPurchaseTransaction } from "types-apple-iap"
 
 /**
  * Takes in a response from Apple transaction and produces a parsed transaction. Keeps track of all of them by grouping them together by subscription group.

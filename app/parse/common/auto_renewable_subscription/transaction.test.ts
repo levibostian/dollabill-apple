@@ -1,4 +1,4 @@
-import { AppleLatestReceiptInfo } from "../../apple_response"
+import { AppleLatestReceiptInfo } from "types-apple-iap"
 import { ParsedTransactions } from "./transactions"
 
 let parsedTransactions: ParsedTransactions
