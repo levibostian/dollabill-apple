@@ -32,21 +32,6 @@ describe("ParsedSubscription", () => {
 
       expect(actual.allTransactions).toEqual([parsedTransaction2Copy, parsedTransactionCopy])
     })
-    it(`given upgrade transactions, expect sort`, async () => {
-      const parsedTransactionCopy = Object.assign({}, parsedTransaction)      
-      const parsedTransaction2Copy = Object.assign({}, parsedTransaction2)
-
-      parsedTransactionCopy.purchaseDate = new Date("2000-01-01T00:00:00.000Z")
-      parsedTransactionCopy.expiresDate = new Date("2000-02-01T00:00:00.000Z") // 1 month subscription period
-
-      // Upgrade performed right away into the current subscription. 
-      parsedTransaction2Copy.purchaseDate = new Date("2000-01-02T00:00:00.000Z") // 1 day after purchased subscription
-      parsedTransaction2Copy.expiresDate = new Date("2000-02-20T00:00:00.000Z") // 6 week subscription period
-
-      const actual = new ParsedSubscription("1", false, [parsedTransaction2Copy, parsedTransactionCopy])
-
-      expect(actual.allTransactions).toEqual([parsedTransaction2Copy, parsedTransactionCopy])
-    })
     it(`given transactions, expect populate properties`, async () => {
       const actual = new ParsedSubscription(
         "1",

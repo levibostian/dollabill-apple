@@ -164,6 +164,7 @@
 			<blockquote>
 				<p>Note: If you have already written the code to verify receipts from Apple, you may be interested in <a href="https://github.com/levibostian/types-apple-iap/">Typescript type definitions for Apple&#39;s responses</a>. </p>
 			</blockquote>
+			<p><img src="misc/header.jpg" alt="logo image. Sloth meme."></p>
 			<a href="#what-is-dolla-bill" id="what-is-dolla-bill" style="color: inherit; text-decoration: none;">
 				<h1>What is dolla bill?</h1>
 			</a>
@@ -477,7 +478,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Issue<wbr>String<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"not_yet_accepting_price_increase"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"billing_issue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"will_voluntary_cancel"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L38">app/result/auto_renewable_subscription.ts:38</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/result/auto_renewable_subscription.ts#L38">app/result/auto_renewable_subscription.ts:38</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -492,7 +493,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Refund<wbr>Reason<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"upgrade"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"app_issue"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"other"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L3">app/result/auto_renewable_subscription.ts:3</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/result/auto_renewable_subscription.ts#L3">app/result/auto_renewable_subscription.ts:3</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -502,26 +503,27 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"active"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"billing_retry_period"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"grace_period"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"voluntary_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"upgraded"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"involuntary_cancel"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"refunded"</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">"other_not_active"</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L68">app/result/auto_renewable_subscription.ts:68</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/result/auto_renewable_subscription.ts#L69">app/result/auto_renewable_subscription.ts:69</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>Options:</p>
 						<ol>
-							<li><strong>active</strong> - when no issue is detected, the subscription is active.</li>
-							<li><strong>billing_retry_period</strong> - when the subscription is beyond the grace period, but apple is still trying to restore the purchase.</li>
+							<li><strong>active</strong> - when no issue is detected, the subscription is active. There are other statuses, however, that determine if the subscription is still a valid one (such as &quot;grace_period&quot;).</li>
+							<li><strong>billing_retry_period</strong> - When the subscription is beyond the grace period, but Apple is still trying to restore the purchase.</li>
 							<li><strong>voluntary_cancel</strong> - they cancelled the subscription. You should not give the customer any access to the paid content.</li>
-							<li><strong>grace_period</strong> - There is a billing issue and Apple is attempting to automatically renew the subscription. Grace period means the customer has not cancelled or refunded. You have not yet lost them as a customer. Learn more about Grace Periods in the main docs for this project.</li>
+							<li><strong>grace_period</strong> - There is a billing issue and Apple is attempting to automatically renew the subscription. Grace period means the customer has not cancelled or refunded. You have not yet lost them as a customer.</li>
 						</ol>
 					</div>
 					<blockquote>
 						<p>Tip: You can open the link <code>https://apps.apple.com/account/billing</code> to send the user to their payment details page in the App Store to update their payment information.</p>
 					</blockquote>
-					<ol start="4">
+					<ol start="5">
 						<li><strong>involuntary_cancel</strong> - the customer had a billing issue and their subscription is no longer active. Maybe you (1) did not enable the <em>Grace Period</em> feature in App Store Connect and the customer has encountered a billing issue or (2) you did enable the <em>Grace Period</em> feature but Apple has since given up on attempting to renew the subscription for the customer. You should no longer give the customer access to the paid content.</li>
 						<li><strong>refunded</strong> - the customer contacted Apple support and asked for a refund of their purchase and received the partial or full refund. You should not give the customer any access to the paid content. You may optionally offer another subscription plan to them to switch to a different offer that meets their needs better.</li>
 						<li><strong>other_not_active</strong> - attempt to be future-proof as much as possible. <em>active</em> is only if we confirm that there are not cancellations, no expiring, no billing issues, etc. But if Apple drops on us some random new feature or expiration intent that this library doesn&#39;t know how to parse yet (or this version you have installed doesn&#39;t yet) you will get in the catch-all <em>other_not_active</em>.</li>
+						<li><strong>upgraded</strong> - this subscription is no longer active, it has been cancelled because the customer upgraded to a new subscription group level and created a new subscription with that.</li>
 					</ol>
 				</div>
 			</section>
@@ -531,7 +533,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">Auto<wbr>Renewable<wbr>Subscription<wbr>Transaction<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>cancelledDate<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>expiresDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>inIntroPeriod<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>inTrialPeriod<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isFirstSubscriptionPurchase<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isRenewOrRestore<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>isUpgradeTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>offerCodeRefName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>originalPurchaseDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>originalTransactionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>productId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>promotionalOfferId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>purchaseDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">; </span>rawTransaction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">AppleLatestReceiptInfo</span><span class="tsd-signature-symbol">; </span>refundReason<span class="tsd-signature-symbol">?: </span><a href="globals.html#autorenewablesubscriptionrefundreason" class="tsd-signature-type">AutoRenewableSubscriptionRefundReason</a><span class="tsd-signature-symbol">; </span>subscriptionGroupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>webOrderLineItemId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/result/auto_renewable_subscription.ts#L8">app/result/auto_renewable_subscription.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/result/auto_renewable_subscription.ts#L8">app/result/auto_renewable_subscription.ts:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -615,7 +617,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">Parse<wbr>Result<span class="tsd-signature-symbol">:</span> <a href="interfaces/parsedresult.html" class="tsd-signature-type">ParsedResult</a><span class="tsd-signature-symbol"> | </span><a href="classes/notvalidnotification.html#error" class="tsd-signature-type">Error</a></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L26">app/index.ts:26</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/index.ts#L26">app/index.ts:26</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -634,7 +636,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">apple<wbr>Production<wbr>Verify<wbr>Receipt<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://buy.itunes.apple.com/verifyReceipt"</span><span class="tsd-signature-symbol"> = &quot;https://buy.itunes.apple.com/verifyReceipt&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L8">app/constants.ts:8</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/constants.ts#L8">app/constants.ts:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -650,7 +652,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">apple<wbr>Sandbox<wbr>Verify<wbr>Receipt<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://sandbox.itunes.apple.com/verifyReceipt"</span><span class="tsd-signature-symbol"> = &quot;https://sandbox.itunes.apple.com/verifyReceipt&quot;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L12">app/constants.ts:12</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/constants.ts#L12">app/constants.ts:12</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -666,7 +668,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">bug<wbr>Report<wbr>Link<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">"https://github.com/levibostian/dollabill-apple/issues/new?template&#x3D;BUG_REPORT.md"</span><span class="tsd-signature-symbol"> = &#x60;https://github.com/levibostian/dollabill-apple/issues/new?template&#x3D;BUG_REPORT.md&#x60;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/constants.ts#L4">app/constants.ts:4</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/constants.ts#L4">app/constants.ts:4</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -689,7 +691,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L29">app/parse/verify_receipt/error.ts:29</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/verify_receipt/error.ts#L29">app/parse/verify_receipt/error.ts:29</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -721,7 +723,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L17">app/parse/verify_receipt/error.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/verify_receipt/error.ts#L17">app/parse/verify_receipt/error.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -750,7 +752,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/error.ts#L7">app/parse/verify_receipt/error.ts:7</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/verify_receipt/error.ts#L7">app/parse/verify_receipt/error.ts:7</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -779,7 +781,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L40">app/index.ts:40</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/index.ts#L40">app/index.ts:40</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -807,7 +809,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/common/purchase/index.ts#L17">app/parse/common/purchase/index.ts:17</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/common/purchase/index.ts#L17">app/parse/common/purchase/index.ts:17</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -848,7 +850,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/verify_receipt.ts#L18">app/verify_receipt.ts:18</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/verify_receipt.ts#L18">app/verify_receipt.ts:18</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -876,7 +878,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L54">app/index.ts:54</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/index.ts#L54">app/index.ts:54</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -905,7 +907,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/common/auto_renewable_subscription/index.ts#L11">app/parse/common/auto_renewable_subscription/index.ts:11</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/common/auto_renewable_subscription/index.ts#L11">app/parse/common/auto_renewable_subscription/index.ts:11</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -938,7 +940,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/server_to_server/success.ts#L9">app/parse/server_to_server/success.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/server_to_server/success.ts#L9">app/parse/server_to_server/success.ts:9</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -960,7 +962,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/parse/verify_receipt/success.ts#L9">app/parse/verify_receipt/success.ts:9</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/parse/verify_receipt/success.ts#L9">app/parse/verify_receipt/success.ts:9</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -991,7 +993,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/verify_receipt.ts#L22">app/verify_receipt.ts:22</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/verify_receipt.ts#L22">app/verify_receipt.ts:22</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1022,7 +1024,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/index.ts#L33">app/index.ts:33</a></li>
+								<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/index.ts#L33">app/index.ts:33</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1050,7 +1052,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 				<div class="tsd-signature tsd-kind-icon">_<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L1">app/underscore.ts:1</a></li>
+						<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L1">app/underscore.ts:1</a></li>
 					</ul>
 				</aside>
 				<section class="tsd-panel tsd-member tsd-kind-object-literal tsd-parent-kind-object-literal">
@@ -1059,7 +1061,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<div class="tsd-signature tsd-kind-icon">array<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L2">app/underscore.ts:2</a></li>
+							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L2">app/underscore.ts:2</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal tsd-has-type-parameter">
@@ -1072,7 +1074,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L3">app/underscore.ts:3</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L3">app/underscore.ts:3</a></li>
 									</ul>
 								</aside>
 								<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1119,7 +1121,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 					<div class="tsd-signature tsd-kind-icon">date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L15">app/underscore.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L15">app/underscore.ts:15</a></li>
 						</ul>
 					</aside>
 					<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-object-literal">
@@ -1132,7 +1134,7 @@ npm run qa       <span class="hljs-comment"># Run the actual test </span></code>
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L43">app/underscore.ts:43</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L43">app/underscore.ts:43</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
@@ -1169,7 +1171,7 @@ nestedDates.sort((first, <span class="hljs-built_in">second</span>) =&gt; _.<spa
 							<li class="tsd-description">
 								<aside class="tsd-sources">
 									<ul>
-										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/2f422af/app/underscore.ts#L28">app/underscore.ts:28</a></li>
+										<li>Defined in <a href="https://github.com/levibostian/dollabill-apple/blob/204fca5/app/underscore.ts#L28">app/underscore.ts:28</a></li>
 									</ul>
 								</aside>
 								<div class="tsd-comment tsd-typography">
