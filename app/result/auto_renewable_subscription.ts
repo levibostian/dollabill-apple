@@ -54,16 +54,17 @@ export interface AutoRenewableSubscriptionIssues {
 
 /**
  * Options:
- * 1. **active** - when no issue is detected, the subscription is active. 
- * 2. **billing_retry_period** - when the subscription is beyond the grace period, but apple is still trying to restore the purchase. 
- * 2. **voluntary_cancel** - they cancelled the subscription. You should not give the customer any access to the paid content.
- * 3. **grace_period** - There is a billing issue and Apple is attempting to automatically renew the subscription. Grace period means the customer has not cancelled or refunded. You have not yet lost them as a customer. Learn more about Grace Periods in the main docs for this project.
+ * 1. **active** - when no issue is detected, the subscription is active. There are other statuses, however, that determine if the subscription is still a valid one (such as "grace_period"). 
+ * 2. **billing_retry_period** - When the subscription is beyond the grace period, but Apple is still trying to restore the purchase. 
+ * 3. **voluntary_cancel** - they cancelled the subscription. You should not give the customer any access to the paid content.
+ * 4. **grace_period** - There is a billing issue and Apple is attempting to automatically renew the subscription. Grace period means the customer has not cancelled or refunded. You have not yet lost them as a customer.
  *
  * > Tip: You can open the link `https://apps.apple.com/account/billing` to send the user to their payment details page in the App Store to update their payment information.
  *
- * 4. **involuntary_cancel** - the customer had a billing issue and their subscription is no longer active. Maybe you (1) did not enable the *Grace Period* feature in App Store Connect and the customer has encountered a billing issue or (2) you did enable the *Grace Period* feature but Apple has since given up on attempting to renew the subscription for the customer. You should no longer give the customer access to the paid content.
- * 5. **refunded** - the customer contacted Apple support and asked for a refund of their purchase and received the partial or full refund. You should not give the customer any access to the paid content. You may optionally offer another subscription plan to them to switch to a different offer that meets their needs better.
- * 6. **other_not_active** - attempt to be future-proof as much as possible. *active* is only if we confirm that there are not cancellations, no expiring, no billing issues, etc. But if Apple drops on us some random new feature or expiration intent that this library doesn't know how to parse yet (or this version you have installed doesn't yet) you will get in the catch-all *other_not_active*. 
+ * 5. **involuntary_cancel** - the customer had a billing issue and their subscription is no longer active. Maybe you (1) did not enable the *Grace Period* feature in App Store Connect and the customer has encountered a billing issue or (2) you did enable the *Grace Period* feature but Apple has since given up on attempting to renew the subscription for the customer. You should no longer give the customer access to the paid content.
+ * 6. **refunded** - the customer contacted Apple support and asked for a refund of their purchase and received the partial or full refund. You should not give the customer any access to the paid content. You may optionally offer another subscription plan to them to switch to a different offer that meets their needs better.
+ * 7. **other_not_active** - attempt to be future-proof as much as possible. *active* is only if we confirm that there are not cancellations, no expiring, no billing issues, etc. But if Apple drops on us some random new feature or expiration intent that this library doesn't know how to parse yet (or this version you have installed doesn't yet) you will get in the catch-all *other_not_active*. 
+ * 8. **upgraded** - this subscription is no longer active, it has been cancelled because the customer upgraded to a new subscription group level and created a new subscription with that. 
  */
 export type AutoRenewableSubscriptionStatus = "active" | "billing_retry_period" | "grace_period" | "voluntary_cancel" | "upgraded" | "involuntary_cancel" | "refunded" | "other_not_active"
 
@@ -86,7 +87,7 @@ export interface AutoRenewableSubscription {
   /**
    * Used to identify a subscription. 
    * 
-   * When a customer upgrades/downgrades/crossgrades, gets a refund then this subscription will be cancelled and a new subscription will be created. This identifier will be used through all renews and restores of the subscription. Do not rely on the {@link currentProductId} or {@link subscriptionGroup} to identify a subscription as there could be multiple subscriptions with the same product id or subscription group id (Example: one subscription is active while another was cancelled). 
+   * This same id will be used for all future renewals or restores. This may include a downgrade or crossgrade performed by a user. Upgrades and crossgrades with the same duration are cancelled and a new subscription is created. 
    */
   originalTransactionId: string
   /**
@@ -108,7 +109,7 @@ export interface AutoRenewableSubscription {
    * 
    * This is the date that you can use to determine how long your customer should have access to the subscription content. 
    * 
-   * > Note: This date can increase and decrease at anytime. The subscription can be cancelled immediately (through refund or upgrade/crossgrade), renewed, etc. Do not assume that it only increases. 
+   * > Note: This date can increase and decrease at anytime. The subscription can be cancelled immediately (through refund or upgrade/crossgrade). Do not assume that it only increases. 
    */
   currentEndDate: Date
   /**
@@ -132,9 +133,7 @@ export interface AutoRenewableSubscription {
    */
   usedPromotionalOffers: string[]
   /**
-   * All transactions for this subscription. Ordered by *the expiration date* of the transaction with the latest expire date first in the list. This sort order is recommended by Apple as it's the method to use to determine the subscription periods of this subscription. 
-   * 
-   * > Note: I know when I was first learning about auto-renewable subscriptions, I was wondering why Apple recommends you sort by expiration date when a customer could sign up for a 6 month subscription today but downgrade to a 1 month tomorrow. Wouldn't the sort order put the 6 month subscription before the 1 month subscription and give my customer 5 months, free? That should not happen because upgrades (go from 1 month to 6 month) are put into place immediately while downgrades (go from 6 month to 1 month) do not happen until the current subscription period ends. That means that if you downgrade tomorrow to 1 month, that 1 month subscription will not go into effect until 6 months from now. If you were to get a refund today for the 6 month subscription and then buy a 1 month subscription in the app, the refunded subscription would be cancelled and a new subscription would be purchased so that's handled, too. 
+   * All transactions for this subscription. Ordered by *the expiration date* of the transaction with the latest expire date first in the list. This sort order is recommended by Apple in this WWDC video: https://developer.apple.com/videos/play/wwdc2018/705/ as the method to determine the subscription period. 
    *
    * See {@link latestExpireDateTransaction}
    */

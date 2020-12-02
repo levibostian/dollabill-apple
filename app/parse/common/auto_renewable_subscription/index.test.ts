@@ -14,7 +14,7 @@ describe("parseSubscriptions", () => {
     expect(actual).toHaveLength(1)
     expect(actual[0].allTransactions).toHaveLength(3)
   })
-  it(`given upgrade/downgrades, expect subscription maps to pending renewal info correctly`, async () => {
+  it(`given downgrades, expect subscription maps to pending renewal info correctly`, async () => {
     const response: AppleVerifyReceiptResponseBodySuccess = require("../../../../samples/subscription_multiple_subscription_purchases.json")
     const actual = parseSubscriptions(response.latest_receipt_info, response.pending_renewal_info)
 
