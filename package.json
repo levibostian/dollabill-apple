@@ -55,6 +55,7 @@
     "@tsconfig/node12": "^1.0.7",
     "@types/jest": "^26.0.16",
     "@types/node": "^14.14.10",
+    "@types/tiny-json-http": "^7.3.0",
     "@typescript-eslint/eslint-plugin": "^4.9.0",
     "@typescript-eslint/parser": "^4.9.0",
     "codecov": "^3.8.1",
