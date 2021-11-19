@@ -182,9 +182,9 @@ if (isFailure(parsedResult)) {
 Full API documentation is hosted [here](https://levibostian.github.io/dollabill-apple/api/). The documentation, as of now, is a little busy because it includes all code including internal code not meant for you to use. 
 
 Convenient quick links:
-* [Result type for `verifyReceipt()` and `parseServerToServerNotification()`](https://levibostian.github.io/dollabill-apple/api/interfaces/parsedreceipt.html)
+* [Result type for `verifyReceipt()` and `parseServerToServerNotification()`](https://levibostian.github.io/dollabill-apple/api/interfaces/parsedresult.html)
 * [Auto-renewable subscription](https://levibostian.github.io/dollabill-apple/api/interfaces/autorenewablesubscription.html)
-* [Product purchase (consumable, non-consumable, not auto-renewing subscription)](https://levibostian.github.io/dollabill-apple/api/interfaces/productpurchase.html)
+* [Product purchase (consumable, non-consumable, not auto-renewing subscription)](https://levibostian.github.io/dollabill-apple/api/interfaces/productpurchases.html)
 
 # Tests
 
