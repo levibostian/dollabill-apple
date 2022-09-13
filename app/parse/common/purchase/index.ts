@@ -18,8 +18,8 @@ export const parsePurchases = (
   latestReceiptInfo?: AppleLatestReceiptInfo[],  
   inAppTransactions?: AppleInAppPurchaseTransaction[]    
 ): ProductPurchases[] => {
-  if (!inAppTransactions) return []
-
+  if (!inAppTransactions || inAppTransactions.length == 0) return []
+  
   const parsedPurchases = new ParsedPurchases()
 
   inAppTransactions.concat(latestReceiptInfo as AppleInAppPurchaseTransaction[])
